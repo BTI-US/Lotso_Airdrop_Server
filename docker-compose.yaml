@@ -1,0 +1,40 @@
+version: '3.5'
+services:
+  web:
+    image: ${IMG_NAME}
+    container_name: lotso_airdrop_server
+    restart: always
+    ports:
+      - "8080:1423"
+    depends_on:
+      - mysql
+    environment:
+      SERVER_PORT: 1423
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWD: ${MYSQL_PASSWD}
+      MYSQL_DB: ${DB_NAME}
+      API_URL: ${API_URL}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      CHAIN_ID: ${CHAIN_ID}
+      CUTOFF_BLOCK: ${CUTOFF_BLOCK}
+      CONTRACT_ADDRESS: ${CONTRACT_ADDRESS}
+
+  mysql:
+    image: mysql:8.0.27
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWD}
+      MYSQL_DATABASE: ${DB_NAME}
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_HOST: '%'
+
+volumes:
+  mysql-data:
