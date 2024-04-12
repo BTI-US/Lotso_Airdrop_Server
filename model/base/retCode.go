@@ -11,6 +11,7 @@ var (
 	ConvertFailed             = NewRetCode(10005, "Convert failed")
 	GetTransactionCountFailed = NewRetCode(10006, "Get transaction count failed")
 	DistributeAirdropsFailed  = NewRetCode(10007, "Distribute airdrops failed")
+	ClaimAirdropsFailed       = NewRetCode(10008, "Claim airdrops failed")
 )
 
 type RetCode struct {
