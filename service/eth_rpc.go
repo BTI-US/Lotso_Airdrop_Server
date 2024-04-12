@@ -111,3 +111,52 @@ func LotsoDistributeAirdrops(addresses *[]model.TransactionCount, amount *big.In
 	log.Info("SetAirdrop tx sent, hash: ", hash)
 	return
 }
+
+func LotsoClaimAirdrops(privateKey *ecdsa.PrivateKey) (hash common.Hash, err error) {
+	client, err := ethclient.Dial(flags.ApiUrl)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+
+	publicKey := privateKey.Public()
+	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
+	if !ok {
+		err = errors.New("error casting public key to ECDSA")
+		return
+	}
+
+	fromAddress := crypto.PubkeyToAddress(*publicKeyECDSA)
+	nonce, err := client.PendingNonceAt(context.Background(), fromAddress)
+	if err != nil {
+		return
+	}
+
+	gasPrice, err := client.SuggestGasPrice(context.Background())
+	if err != nil {
+		return
+	}
+
+	transactOpts, _ := bind.NewKeyedTransactorWithChainID(privateKey, new(big.Int).SetInt64(flags.ChainID))
+	transactOpts.Nonce = big.NewInt(int64(nonce))
+	transactOpts.Value = big.NewInt(0) // in wei
+	transactOpts.GasLimit = 100000     // in units
+	transactOpts.GasPrice = gasPrice
+
+	//创建合约对象
+	contractAddress := common.HexToAddress(flags.ContractAddress)
+	lotsoAirdrop, err := contracts.NewContracts(contractAddress, client)
+	if err != nil {
+		return
+	}
+
+	tx, err := lotsoAirdrop.ClaimAirdrop(transactOpts)
+	if err != nil {
+		return
+	}
+
+	hash = tx.Hash()
+	log.Info("ClaimAirdrop tx sent, hash: ", hash)
+
+	return
+}

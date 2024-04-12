@@ -6,6 +6,7 @@ import (
 	"Lotso_Airdrop_Server/model"
 	"Lotso_Airdrop_Server/model/base"
 	"Lotso_Airdrop_Server/utils"
+	"crypto/ecdsa"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/labstack/gommon/log"
 	"math/big"
@@ -107,5 +108,29 @@ func GetAddressesShouldAirdrop() (response *base.Response) {
 	}
 
 	response = base.NewDataResponse(transactionCounts)
+	return
+}
+
+func DistributeAirdropsTo(address common.Address, amount *big.Int) (response *base.Response) {
+	var transactionCounts []model.TransactionCount
+	airdrop := model.NewAirdrop(&address, amount)
+	transactionCounts = append(transactionCounts, *airdrop)
+	hash, err := LotsoDistributeAirdrops(&transactionCounts, amount)
+	if err != nil {
+		response = base.NewErrorResponse(err, base.DistributeAirdropsFailed)
+		return
+	}
+	response = base.NewDataResponse(hash)
+	return
+}
+
+func ClaimAirdrop(privateKey *ecdsa.PrivateKey) (response *base.Response) {
+	hash, err := LotsoClaimAirdrops(privateKey)
+	if err != nil {
+		response = base.NewErrorResponse(err, base.ClaimAirdropsFailed)
+		return
+	}
+
+	response = base.NewDataResponse(hash)
 	return
 }

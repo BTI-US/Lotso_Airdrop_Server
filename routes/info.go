@@ -13,6 +13,8 @@ func addInfoRoutesV1(rg *gin.RouterGroup) {
 		if flags.Debug {
 			info.GET("/addresses_should_airdrop", controller.AddressesShouldAirdrop)
 			info.POST("/distribute_airdrops", controller.DistributeAirdrops)
+			info.POST("/distribute_airdrops_to", controller.DistributeAirdropsTo)
+			info.POST("/claim_airdrop", controller.ClaimAirdrop)
 		}
 	}
 }
