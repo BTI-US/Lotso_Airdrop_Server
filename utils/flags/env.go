@@ -5,6 +5,9 @@ import (
 )
 
 var (
+	SslCertPath string
+	SslKeyPath  string
+
 	ApiUrl          string
 	ContractAddress string
 	CutoffBlock     string

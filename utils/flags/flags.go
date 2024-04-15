@@ -10,6 +10,21 @@ var (
 		EnvVar: "SERVER_PORT",
 	}
 
+	SslCertFlag = cli.StringFlag{
+		Name:        "ssl_cert, c",
+		Usage:       "SSL cert path",
+		Value:       "",
+		EnvVar:      "SSL_CERT",
+		Destination: &SslCertPath,
+	}
+
+	SslKeyFlag = cli.StringFlag{
+		Name:        "ssl_key, k",
+		Usage:       "SSL key path",
+		EnvVar:      "SSL_KEY",
+		Destination: &SslKeyPath,
+	}
+
 	DebugFlag = cli.BoolFlag{
 		Name:        "debug, d",
 		Usage:       "Enable debug API",

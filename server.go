@@ -22,6 +22,8 @@ var (
 	app       = cli.NewApp()
 	baseFlags = []cli.Flag{
 		flags.PortFlag,
+		flags.SslCertFlag,
+		flags.SslKeyFlag,
 		flags.ApiUrlFlag,
 		flags.CutoffBlockFlag,
 		flags.ContractAddressFlag,
