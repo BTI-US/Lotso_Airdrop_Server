@@ -41,6 +41,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: phillweston/twitter-auth:tag
+        tags: phillweston/lotso-airdrop-server:tag
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new
