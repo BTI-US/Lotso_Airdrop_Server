@@ -86,8 +86,7 @@ func LotsoDistributeAirdrops(addresses *[]model.TransactionCount, amount *big.In
 	transactOpts.GasPrice = gasPrice
 
 	//创建合约对象
-	contractAddress := common.HexToAddress(flags.ContractAddress)
-	lotsoAirdrop, err := contracts.NewContracts(contractAddress, client)
+	lotsoAirdrop, err := contracts.NewContracts(flags.Contract, client)
 	if err != nil {
 		return
 	}
@@ -144,8 +143,7 @@ func LotsoClaimAirdrops(privateKey *ecdsa.PrivateKey) (hash common.Hash, err err
 	transactOpts.GasPrice = gasPrice
 
 	//创建合约对象
-	contractAddress := common.HexToAddress(flags.ContractAddress)
-	lotsoAirdrop, err := contracts.NewContracts(contractAddress, client)
+	lotsoAirdrop, err := contracts.NewContracts(flags.Contract, client)
 	if err != nil {
 		return
 	}
@@ -158,5 +156,22 @@ func LotsoClaimAirdrops(privateKey *ecdsa.PrivateKey) (hash common.Hash, err err
 	hash = tx.Hash()
 	log.Info("ClaimAirdrop tx sent, hash: ", hash)
 
+	return
+}
+
+func LotsoRecipientsCount() (recipientsCount *big.Int, err error) {
+	client, err := ethclient.Dial(flags.ApiUrl)
+	if err != nil {
+		return
+	}
+	defer client.Close()
+
+	//创建合约对象
+	lotsoAirdrop, err := contracts.NewContracts(flags.Contract, client)
+	if err != nil {
+		return
+	}
+
+	recipientsCount, err = lotsoAirdrop.RecipientsCount(nil)
 	return
 }

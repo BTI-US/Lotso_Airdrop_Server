@@ -10,6 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/labstack/gommon/log"
 	"math/big"
+	"time"
 )
 
 var AirdropCount, _ = new(big.Int).SetString("100000000000000000000000", 10)
@@ -132,5 +133,30 @@ func ClaimAirdrop(privateKey *ecdsa.PrivateKey) (response *base.Response) {
 	}
 
 	response = base.NewDataResponse(hash)
+	return
+}
+
+var (
+	recipientsCount, _        = new(big.Int).SetString("0", 10)
+	recipientsCountLastUpdate int64
+)
+
+func RecipientsCount() (response *base.Response) {
+	now := time.Now().Unix()
+	if now-recipientsCountLastUpdate < 30 {
+		response = base.NewDataResponse(recipientsCount)
+		return
+	}
+
+	recipientsCountLastUpdate = now
+	count, err := LotsoRecipientsCount()
+	if err != nil {
+		response = base.NewErrorResponse(err, base.RecipientsCountFailed)
+		response.Data = recipientsCount
+		return
+	}
+	recipientsCount = count
+
+	response = base.NewDataResponse(count)
 	return
 }

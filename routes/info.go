@@ -10,6 +10,7 @@ func addInfoRoutesV1(rg *gin.RouterGroup) {
 	info := rg.Group("/info")
 	{
 		info.GET("/transaction_count", controller.TransactionCount)
+		info.GET("/recipients_count", controller.RecipientsCount)
 		if flags.Debug {
 			info.GET("/addresses_should_airdrop", controller.AddressesShouldAirdrop)
 			info.POST("/distribute_airdrops", controller.DistributeAirdrops)
