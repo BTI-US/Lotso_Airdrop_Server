@@ -6,7 +6,7 @@ require (
 	github.com/ethereum/go-ethereum v1.13.14
 	github.com/gin-gonic/gin v1.9.1
 	github.com/labstack/gommon v0.4.2
-	github.com/robfig/cron/v3 v3.0.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/unrolled/secure v1.14.0
 	gopkg.in/urfave/cli.v1 v1.20.0
 	gorm.io/driver/mysql v1.5.6
