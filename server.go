@@ -7,6 +7,7 @@ import (
 	"Lotso_Airdrop_Server/utils"
 	"Lotso_Airdrop_Server/utils/flags"
 	"fmt"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/labstack/gommon/log"
 	"gopkg.in/urfave/cli.v1"
 	"os"
@@ -66,6 +67,11 @@ func prepare(ctx *cli.Context) (err error) {
 		err = fmt.Errorf("invalid cutoff block")
 		return
 	}
+	if !common.IsHexAddress(flags.ContractAddress) {
+		err = fmt.Errorf("invalid contract address")
+		return
+	}
+	flags.Contract = common.HexToAddress(flags.ContractAddress)
 	if !utils.Has0xPrefix(flags.CutoffBlock) {
 		flags.CutoffBlock = "0x" + flags.CutoffBlock
 	}

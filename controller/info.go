@@ -12,6 +12,10 @@ import (
 	"net/http"
 )
 
+func RecipientsCount(c *gin.Context) {
+	c.JSON(http.StatusOK, service.RecipientsCount())
+}
+
 func TransactionCount(c *gin.Context) {
 	address, ok := c.GetQuery("address")
 	if !ok {

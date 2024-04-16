@@ -2,6 +2,7 @@ package flags
 
 import (
 	"Lotso_Airdrop_Server/utils"
+	"github.com/ethereum/go-ethereum/common"
 )
 
 var (
@@ -21,6 +22,8 @@ var (
 	MysqlPort   int
 
 	Debug bool
+
+	Contract common.Address
 )
 
 func IsValidCutoffBlock(cutoffBlock string) bool {
