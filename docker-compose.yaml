@@ -46,8 +46,6 @@ services:
       - mysql
     environment:
       PMA_HOST: mysql
-      PMA_USER: root
-      PMA_PASSWORD: ${MYSQL_PASSWD}
       UPLOAD_LIMIT: 50M
 
 volumes:
