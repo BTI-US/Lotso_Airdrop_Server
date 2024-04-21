@@ -16,6 +16,7 @@
   - [Requirements](#requirements)
   - [Diagram](#diagram)
   - [Usage](#usage)
+  - [REST API Endpoints](#rest-api-endpoints)
   - [License](#license)
 
 ## Introduction
@@ -62,6 +63,48 @@ TZ=UTC DEBUG=True IMG_NAME=bti/lotso-airdrop-server:0.0.1 MYSQL_PASSWD="your_mys
 ```bash
 TZ=UTC DEBUG=True IMG_NAME=bti/lotso-airdrop-server:0.0.1 MYSQL_PASSWD="your_mysql_database_password" DB_NAME=lotso_airdrop API_URL=https://eth-sepolia.g.alchemy.com/v2/crycCDOIbtpZREF8mwIO4AJdC3dK4ihU PRIVATE_KEY="your_private_key" CHAIN_ID=11155111 CUTOFF_BLOCK=0x556df8 CONTRACT_ADDRESS=0xA648a901DCd3dc15FBd0bee0FC0ee03279ce1d29 docker-compose -f /home/fuming/docker/LotsoAirdropServer_Sepolia/docker-compose.yaml down
 ```
+
+## REST API Endpoints
+
+1. **GET /v1/info/transaction_count**
+   - **Description:** Retrieves the transaction count for a given address.
+   - **Parameters:**
+     - `address` (String): The blockchain address to query.
+     - `count` (Integer): The steps that the user has taken to claim the airdrop.
+   - **Response:**
+     - `address`: Wallet address of the current user, should be the same as the input address.
+     - `transaction_count` (Integer): The number of transactions associated with the address.
+     - `airdrop_count` (Integer): The airdrop count for the address.
+     - `has_airdropped` (Boolean): Indicates if the airdrop has occurred.
+     - `scheduled_delivery` (String): The next available time for claiming the airdrop.
+   - **Example:**
+     ```json
+     {
+       "code": 0,
+       "message": "Success",
+       "error": "",
+       "data": {
+          "address": "0x460c3449a7E6695AF830008CB0a3b118B02aB30e",
+          "transaction_count": 11,
+          "airdrop_count": 100000000000000000000000,
+          "has_airdropped": true,
+          "scheduled_delivery": "2024-04-01T08:00:00Z"
+       }
+     }
+     ```
+2. **GET /v1/info/recipients_count**
+   - **Description:** Retrieves the recipient count for the airdrop.
+   - **Response:**
+     - `data` (Integer): The number of recipients eligible for the airdrop.
+   - **Example:**
+     ```json
+     {
+       "code": 10009,
+       "message": "Get recipients count failed",
+       "error": "execution reverted",
+       "data": 0
+     }
+     ```
 
 ## License
 
