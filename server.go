@@ -31,6 +31,7 @@ var (
 		flags.PrivateKeyFlag,
 		flags.ChainIDFlag,
 		flags.DebugFlag,
+		flags.DecimalsFlag,
 	}
 	mysqlFlags = []cli.Flag{
 		flags.MysqlHostFlag,

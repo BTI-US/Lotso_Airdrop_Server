@@ -101,4 +101,12 @@ var (
 		EnvVar:      "MYSQL_DB",
 		Destination: &MysqlDB,
 	}
+
+	DecimalsFlag = cli.Uint64Flag{
+		Name:        "decimals",
+		Usage:       "Decimals of token",
+		Value:       18,
+		EnvVar:      "DECIMALS",
+		Destination: &Decimals,
+	}
 )

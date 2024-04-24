@@ -1,8 +1,11 @@
 package mysql
 
-import "Lotso_Airdrop_Server/model"
+import (
+	"Lotso_Airdrop_Server/model"
+	"Lotso_Airdrop_Server/utils"
+)
 
-func InsertTransactionCount(transactionCount *model.TransactionCount) (ID int, err error) {
+func InsertTransactionCount(transactionCount *model.TransactionCount) (ID uint, err error) {
 	err = db.Create(transactionCount).Error
 	ID = transactionCount.ID
 	return
@@ -24,8 +27,8 @@ func DelTransactionCountByID(ID int) (err error) {
 }
 
 func GetAddressesShouldAirdrop() (transactionCounts *[]model.TransactionCount, err error) {
-	selectCol := []string{"address"}
-	err = db.Where("has_airdropped = ? AND transaction_count > ?", false, 10).Select(selectCol).Find(&transactionCounts).Error
+	selectCol := []string{"address", "airdrop_count", "scheduled_delivery"}
+	err = db.Where("has_airdropped = ? AND scheduled_delivery > ?", false, utils.ZeroTime()).Select(selectCol).Find(&transactionCounts).Error
 	return
 }
 

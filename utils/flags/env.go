@@ -21,6 +21,8 @@ var (
 	MysqlDB     string
 	MysqlPort   int
 
+	Decimals uint64
+
 	Debug bool
 
 	Contract common.Address

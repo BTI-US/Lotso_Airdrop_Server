@@ -7,13 +7,15 @@ import (
 	"Lotso_Airdrop_Server/model/base"
 	"Lotso_Airdrop_Server/utils"
 	"crypto/ecdsa"
+	"errors"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/labstack/gommon/log"
+	"gorm.io/gorm"
 	"math/big"
 	"time"
 )
 
-var AirdropCount, _ = new(big.Int).SetString("100000000000000000000000", 10)
+var AirdropCount uint64 = 100000
 
 func GetTransactionCount(address common.Address) (response *base.Response, cacheControl string) {
 	// With 0x prefix
@@ -23,7 +25,7 @@ func GetTransactionCount(address common.Address) (response *base.Response, cache
 	if err != nil && err.Error() != "record not found" {
 		return base.NewErrorResponse(err, base.GetTransactionCountFailed), cacheControl
 	}
-	transactionCount.AirdropCount = new(big.Int).SetInt64(0)
+	transactionCount.AirdropCount = AirdropCount
 	if err == nil {
 		cacheControl = "600"
 		transactionCount.Address = "0x" + transactionCount.Address
@@ -88,7 +90,8 @@ func DistributeAirdrops() (response *base.Response) {
 
 	for _, subSlice := range result {
 		var hash common.Hash
-		hash, err = LotsoDistributeAirdrops(&subSlice, AirdropCount)
+
+		hash, err = LotsoDistributeAirdrops(&subSlice)
 		if err != nil {
 			log.Error("LotsoDistributeAirdrops error: ", err)
 			hashes = append(hashes, "")
@@ -112,11 +115,11 @@ func GetAddressesShouldAirdrop() (response *base.Response) {
 	return
 }
 
-func DistributeAirdropsTo(address common.Address, amount *big.Int) (response *base.Response) {
+func DistributeAirdropsTo(address common.Address, amount uint64) (response *base.Response) {
 	var transactionCounts []model.TransactionCount
 	airdrop := model.NewAirdrop(&address, amount)
 	transactionCounts = append(transactionCounts, *airdrop)
-	hash, err := LotsoDistributeAirdrops(&transactionCounts, amount)
+	hash, err := LotsoDistributeAirdrops(&transactionCounts)
 	if err != nil {
 		response = base.NewErrorResponse(err, base.DistributeAirdropsFailed)
 		return
@@ -158,5 +161,30 @@ func RecipientsCount() (response *base.Response) {
 	recipientsCount = count
 
 	response = base.NewDataResponse(count)
+	return
+}
+
+func SetAirdrop(address common.Address, amount uint64) (response *base.Response) {
+	// With 0x prefix
+	addressHex := address.Hex()
+
+	transactionCount, err := database.GetTransactionCount(addressHex[2:])
+	if err == nil {
+		transactionCount.Address = "0x" + transactionCount.Address
+		response = base.NewErrorResponse(err, base.TransactionCountAlreadyExists)
+		response.Data = transactionCount
+		return response
+	}
+	if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return base.NewErrorResponse(err, base.GetTransactionCountFailed)
+	}
+	transactionCount.AirdropCount = amount
+	transactionCount.Address = addressHex[2:]
+	transactionCount.ScheduledDelivery = utils.NextOddHourTime()
+	_, err = database.InsertTransactionCount(transactionCount)
+	if err != nil {
+		return base.NewErrorResponse(err, base.SaveTransactionCountFailed)
+	}
+	response = base.NewDataResponse(transactionCount)
 	return
 }
