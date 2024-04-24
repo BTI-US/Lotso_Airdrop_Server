@@ -38,6 +38,6 @@ func Connect(IP string, port int, username string, passwd string, dbname string)
 }
 
 func initMysql() (err error) {
-	err = db.AutoMigrate(&model.TransactionCount{})
+	err = db.AutoMigrate(&model.AirdropItem{})
 	return
 }

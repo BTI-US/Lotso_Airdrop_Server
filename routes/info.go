@@ -9,7 +9,7 @@ import (
 func addInfoRoutesV1(rg *gin.RouterGroup) {
 	info := rg.Group("/info")
 	{
-		//info.GET("/transaction_count", controller.TransactionCount)
+		info.GET("/apply_airdrop", controller.ApplyAirdrop)
 		info.GET("/recipients_count", controller.RecipientsCount)
 		addInfoDebugRoutesV1(info)
 	}

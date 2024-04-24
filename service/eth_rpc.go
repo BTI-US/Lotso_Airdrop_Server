@@ -44,7 +44,7 @@ func EthGetTransactionCount(address string) (transactionCount uint64, err error)
 	return
 }
 
-func LotsoDistributeAirdrops(addresses *[]model.TransactionCount) (hash common.Hash, err error) {
+func LotsoDistributeAirdrops(addresses *[]model.AirdropItem) (hash common.Hash, err error) {
 	client, err := ethclient.Dial(flags.ApiUrl)
 	if err != nil {
 		return

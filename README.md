@@ -66,7 +66,7 @@ TZ=UTC DEBUG=True IMG_NAME=bti/lotso-airdrop-server:0.0.1 MYSQL_PASSWD="your_mys
 
 ## REST API Endpoints
 
-1. **GET /v1/info/transaction_count**
+1. **GET /v1/info/apply_airdrop**
    - **Description:** Retrieves the transaction count for a given address.
    - **Parameters:**
      - `address` (String): The blockchain address to query.

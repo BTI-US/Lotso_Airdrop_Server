@@ -17,8 +17,8 @@ func RecipientsCount(c *gin.Context) {
 	c.JSON(http.StatusOK, service.RecipientsCount())
 }
 
-// TransactionCount 接收地址参数，向数据库、链上查询此地址的交易数量并存入mysql，如果满足空投条件，则会按计划发放空投
-func TransactionCount(c *gin.Context) {
+// ApplyAirdrop 接收地址参数，向数据库、链上查询此地址的交易数量并存入mysql，如果满足空投条件，则会按计划发放空投
+func ApplyAirdrop(c *gin.Context) {
 	address, ok := c.GetQuery("address")
 	if !ok {
 		response := base.NewErrorResponse(errors.New("missing parameter `address`"), base.WrongParams)
@@ -32,7 +32,7 @@ func TransactionCount(c *gin.Context) {
 		return
 	}
 
-	response, cacheControl := service.GetTransactionCount(common.HexToAddress(address))
+	response, cacheControl := service.ApplyAirdrop(common.HexToAddress(address))
 	if cacheControl != "" {
 		c.Writer.Header().Set("Cache-Control", "public, immutable, max-age="+cacheControl)
 	}
@@ -106,5 +106,5 @@ func SetAirdrop(c *gin.Context) {
 }
 
 func RewardParent(c *gin.Context) {
-	
+
 }
