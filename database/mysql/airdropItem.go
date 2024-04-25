@@ -27,14 +27,14 @@ func DelAirdropItemByID(ID int) (err error) {
 }
 
 func GetAddressesShouldAirdrop() (airdropItems *[]model.AirdropItem, err error) {
-	selectCol := []string{"address", "airdrop_count", "scheduled_delivery"}
-	err = db.Where("has_airdropped = ? AND scheduled_delivery > ?", false, utils.ZeroTime()).Select(selectCol).Find(&airdropItems).Error
+	selectCol := []string{"address", "airdrop_count", "has_airdropped_count", "scheduled_delivery"}
+	err = db.Where("airdrop_count > has_airdropped_count AND scheduled_delivery > ?", utils.ZeroTime()).Select(selectCol).Find(&airdropItems).Error
 	return
 }
 
 func SetAirdropItemsAsHasAirdropped(airdropItems *[]model.AirdropItem) (err error) {
 	for _, tc := range *airdropItems {
-		db.Model(&model.AirdropItem{}).Where("address = ?", tc.Address).Update("has_airdropped", true)
+		db.Model(&model.AirdropItem{}).Where("address = ?", tc.Address).Update("has_airdropped_count", tc.AirdropCount)
 	}
 	return
 }
