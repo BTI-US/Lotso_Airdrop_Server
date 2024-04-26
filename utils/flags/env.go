@@ -9,6 +9,7 @@ var (
 	SslCertPath string
 	SslKeyPath  string
 
+	ApiMode         int
 	ApiUrl          string
 	ContractAddress string
 	CutoffBlock     string
@@ -20,6 +21,8 @@ var (
 	MysqlPasswd string
 	MysqlDB     string
 	MysqlPort   int
+
+	Decimals uint64
 
 	Debug bool
 

@@ -44,7 +44,7 @@ func EthGetTransactionCount(address string) (transactionCount uint64, err error)
 	return
 }
 
-func LotsoDistributeAirdrops(addresses *[]model.TransactionCount, amount *big.Int) (hash common.Hash, err error) {
+func LotsoDistributeAirdrops(addresses *[]model.AirdropItem) (hash common.Hash, err error) {
 	client, err := ethclient.Dial(flags.ApiUrl)
 	if err != nil {
 		return
@@ -98,7 +98,7 @@ func LotsoDistributeAirdrops(addresses *[]model.TransactionCount, amount *big.In
 
 	amounts := make([]*big.Int, len(*addresses))
 	for i := range amounts {
-		amounts[i] = amount
+		amounts[i] = calAirdropAmount((*addresses)[i].AirdropCount - (*addresses)[i].HasAirdroppedCount)
 	}
 
 	tx, err := lotsoAirdrop.SetAirdrop(transactOpts, recipients, amounts)
@@ -173,5 +173,11 @@ func LotsoRecipientsCount() (recipientsCount *big.Int, err error) {
 	}
 
 	recipientsCount, err = lotsoAirdrop.RecipientsCount(nil)
+	return
+}
+
+// amount = AirdropCount * 10**Decimals
+func calAirdropAmount(airdropCount uint64) (amount *big.Int) {
+	amount = new(big.Int).Mul(new(big.Int).SetUint64(airdropCount), new(big.Int).Exp(new(big.Int).SetInt64(10), new(big.Int).SetUint64(flags.Decimals), nil))
 	return
 }

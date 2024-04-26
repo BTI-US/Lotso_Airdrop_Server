@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestTransactionCount(t *testing.T) {
+func TestApplyAirdrop(t *testing.T) {
 	type test struct {
 		name    string
 		address string

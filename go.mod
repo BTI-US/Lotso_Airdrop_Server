@@ -3,7 +3,7 @@ module Lotso_Airdrop_Server
 go 1.21
 
 require (
-	github.com/ethereum/go-ethereum v1.13.14
+	github.com/ethereum/go-ethereum v1.13.15
 	github.com/gin-gonic/gin v1.9.1
 	github.com/labstack/gommon v0.4.2
 	github.com/robfig/cron/v3 v3.0.1
