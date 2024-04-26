@@ -9,6 +9,13 @@ var (
 		Value:  "1423",
 		EnvVar: "SERVER_PORT",
 	}
+	ApiModeFlag = cli.IntFlag{
+		Name:        "ApiMode, a",
+		Usage:       "ApiMode",
+		Value:       1,
+		EnvVar:      "API_MODE",
+		Destination: &ApiMode,
+	}
 
 	SslCertFlag = cli.StringFlag{
 		Name:        "ssl_cert, c",

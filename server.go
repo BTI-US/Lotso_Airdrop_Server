@@ -15,7 +15,7 @@ import (
 
 const (
 	clientIdentifier = "Lotso Airdrop Server"
-	clientVersion    = "1.0.0"
+	clientVersion    = "1.1.0"
 	clientUsage      = "Lotso Airdrop Server"
 )
 
@@ -32,6 +32,7 @@ var (
 		flags.ChainIDFlag,
 		flags.DebugFlag,
 		flags.DecimalsFlag,
+		flags.ApiModeFlag,
 	}
 	mysqlFlags = []cli.Flag{
 		flags.MysqlHostFlag,

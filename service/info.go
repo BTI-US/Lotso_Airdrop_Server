@@ -25,7 +25,7 @@ func ApplyAirdrop(address common.Address) (response *base.Response, cacheControl
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return base.NewErrorResponse(err, base.GetAirdropItemFailed), cacheControl
 	}
-	airdropItem.AirdropCount = AirdropCount
+
 	if err == nil {
 		cacheControl = "600"
 		airdropItem.Address = "0x" + airdropItem.Address
@@ -63,9 +63,6 @@ func ApplyAirdrop(address common.Address) (response *base.Response, cacheControl
 }
 
 func DistributeAirdrops() (response *base.Response) {
-	// Before distributing, we need to remove duplicate addresses
-	_ = mysql.RemoveDuplicateAddresses()
-
 	airdropItems, err := database.GetAddressesShouldAirdrop()
 	if err != nil {
 		return base.NewErrorResponse(err, base.GetAirdropItemFailed)
@@ -187,4 +184,14 @@ func SetAirdrop(address common.Address, amount uint64) (response *base.Response)
 	}
 	response = base.NewDataResponse(airdropItem)
 	return
+}
+
+func AppendAirdrop(address common.Address, amount uint64) (response *base.Response) {
+	addressHex := address.Hex()
+
+	item, err := mysql.AppendAirdropAmount(addressHex[2:], amount)
+	if err != nil {
+		return base.NewErrorResponse(err, base.SaveAirdropItemFailed)
+	}
+	return base.NewDataResponse(item)
 }

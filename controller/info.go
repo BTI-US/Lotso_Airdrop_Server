@@ -102,9 +102,35 @@ func SetAirdrop(c *gin.Context) {
 		c.JSON(http.StatusOK, response)
 		return
 	}
+
+	if param.Amount.Uint64() > 100000000 {
+		response := base.NewErrorResponse(errors.New("amount can should <= 100000000"), base.WrongParams)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
 	c.JSON(http.StatusOK, service.SetAirdrop(common.HexToAddress(param.Address), param.Amount.Uint64()))
 }
 
-func RewardParent(c *gin.Context) {
+func AppendAirdrop(c *gin.Context) {
+	var param model.DistributeParam
+	err := c.ShouldBind(&param)
+	if err != nil {
+		c.JSON(http.StatusOK, base.NewErrorResponse(err, base.WrongParams))
+		return
+	}
 
+	if !common.IsHexAddress(param.Address) {
+		response := base.NewErrorResponse(nil, base.InvalidAddress)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	if param.Amount.Uint64() > 100000000 {
+		response := base.NewErrorResponse(errors.New("amount can should <= 100000000"), base.WrongParams)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	c.JSON(http.StatusOK, service.AppendAirdrop(common.HexToAddress(param.Address), param.Amount.Uint64()))
 }

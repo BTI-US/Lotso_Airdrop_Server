@@ -47,7 +47,4 @@ func Run(port string) {
 func getRoutes() {
 	v1 := router.Group("/v1")
 	addInfoRoutesV1(v1)
-
-	v2 := router.Group("/v2")
-	addInfoRoutesV2(v2)
 }

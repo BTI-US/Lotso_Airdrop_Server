@@ -98,7 +98,7 @@ func LotsoDistributeAirdrops(addresses *[]model.AirdropItem) (hash common.Hash, 
 
 	amounts := make([]*big.Int, len(*addresses))
 	for i := range amounts {
-		amounts[i] = calAirdropAmount((*addresses)[i].AirdropCount)
+		amounts[i] = calAirdropAmount((*addresses)[i].AirdropCount - (*addresses)[i].HasAirdroppedCount)
 	}
 
 	tx, err := lotsoAirdrop.SetAirdrop(transactOpts, recipients, amounts)

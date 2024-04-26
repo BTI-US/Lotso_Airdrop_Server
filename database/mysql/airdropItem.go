@@ -26,6 +26,24 @@ func DelAirdropItemByID(ID int) (err error) {
 	return
 }
 
+func AirdropItemExist(address string) (exist bool, err error) {
+	var count int64
+	err = db.Model(&model.AirdropItem{}).Where("address = ?", address).Count(&count).Error
+	exist = count > 0
+	return
+}
+
+func AppendAirdropAmount(address string, appendCount uint64) (item *model.AirdropItem, err error) {
+	item, err = GetAirdropItemByAddress(address)
+	if err != nil {
+		return
+	}
+	item.AirdropCount += appendCount
+	item.ScheduledDelivery = utils.NextOddHourTime()
+	err = db.Save(item).Error
+	return
+}
+
 func GetAddressesShouldAirdrop() (airdropItems *[]model.AirdropItem, err error) {
 	selectCol := []string{"address", "airdrop_count", "has_airdropped_count", "scheduled_delivery"}
 	err = db.Where("airdrop_count > has_airdropped_count AND scheduled_delivery > ?", utils.ZeroTime()).Select(selectCol).Find(&airdropItems).Error

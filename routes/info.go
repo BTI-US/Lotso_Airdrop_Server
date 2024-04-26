@@ -8,10 +8,13 @@ import (
 
 func addInfoRoutesV1(rg *gin.RouterGroup) {
 	info := rg.Group("/info")
-	{
+	info.GET("/recipients_count", controller.RecipientsCount)
+	addInfoDebugRoutesV1(info)
+	if flags.ApiMode == 0 {
 		info.GET("/apply_airdrop", controller.ApplyAirdrop)
-		info.GET("/recipients_count", controller.RecipientsCount)
-		addInfoDebugRoutesV1(info)
+	} else if flags.ApiMode == 1 {
+		info.POST("/set_airdrop", controller.SetAirdrop)
+		info.POST("/append_airdrop", controller.AppendAirdrop)
 	}
 }
 
@@ -21,13 +24,5 @@ func addInfoDebugRoutesV1(rg *gin.RouterGroup) {
 		rg.POST("/distribute_airdrops", controller.DistributeAirdrops)
 		rg.POST("/distribute_airdrops_to", controller.DistributeAirdropsTo)
 		rg.POST("/claim_airdrop", controller.ClaimAirdrop)
-	}
-}
-
-func addInfoRoutesV2(rg *gin.RouterGroup) {
-	info := rg.Group("/info")
-	{
-		info.POST("/set_airdrop", controller.SetAirdrop)
-		info.POST("/reward_parent", controller.RewardParent)
 	}
 }

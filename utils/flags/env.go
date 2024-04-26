@@ -9,6 +9,7 @@ var (
 	SslCertPath string
 	SslKeyPath  string
 
+	ApiMode         int
 	ApiUrl          string
 	ContractAddress string
 	CutoffBlock     string

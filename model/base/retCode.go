@@ -10,11 +10,12 @@ var (
 	EthApiCallFailed         = NewRetCode(10004, "ETH API call failed")
 	ConvertFailed            = NewRetCode(10005, "Convert failed")
 	AirdropItemAlreadyExists = NewRetCode(10006, "Airdrop item already exists")
-	GetAirdropItemFailed     = NewRetCode(10007, "Get airdrop item failed")
-	SaveAirdropItemFailed    = NewRetCode(10008, "Save airdrop item failed")
-	DistributeAirdropsFailed = NewRetCode(10009, "Distribute airdrops failed")
-	ClaimAirdropsFailed      = NewRetCode(10010, "Claim airdrops failed")
-	RecipientsCountFailed    = NewRetCode(100011, "Get recipients count failed")
+	AirdropItemNotExists     = NewRetCode(10007, "Airdrop item not exists")
+	GetAirdropItemFailed     = NewRetCode(10008, "Get airdrop item failed")
+	SaveAirdropItemFailed    = NewRetCode(10009, "Save airdrop item failed")
+	DistributeAirdropsFailed = NewRetCode(10010, "Distribute airdrops failed")
+	ClaimAirdropsFailed      = NewRetCode(10011, "Claim airdrops failed")
+	RecipientsCountFailed    = NewRetCode(10012, "Get recipients count failed")
 )
 
 type RetCode struct {
