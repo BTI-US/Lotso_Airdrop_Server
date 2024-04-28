@@ -9,17 +9,26 @@ services:
     depends_on:
       - mysql
     environment:
-      SERVER_PORT: 1423
+      SERVER_PORT: ${SERVER_PORT}
       MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-      MYSQL_USER: root
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWD: ${MYSQL_PASSWD}
-      MYSQL_DB: ${DB_NAME}
+      MYSQL_DB: ${MYSQL_DB}
       API_URL: ${API_URL}
       PRIVATE_KEY: ${PRIVATE_KEY}
       CHAIN_ID: ${CHAIN_ID}
       CUTOFF_BLOCK: ${CUTOFF_BLOCK}
       CONTRACT_ADDRESS: ${CONTRACT_ADDRESS}
+      DEBUG: ${DEBUG}
+      TZ: ${TZ}
+      API_MODE: ${API_MODE}
+      DECIMALS: ${DECIMALS}
+      SSL_CERT: ${SSL_CERT}
+      SSL_KEY: ${SSL_KEY}
+      PAIR_ADDRESS: ${PAIR_ADDRESS}
+      BUYER_REWARD_LIMIT: ${BUYER_REWARD_LIMIT}
+      NOT_BUYER_REWARD_LIMIT: ${NOT_BUYER_REWARD_LIMIT}
 
   mysql:
     image: mysql:8.0.27
@@ -30,9 +39,9 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_USER: ${MYSQL_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWD}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_DATABASE: ${MYSQL_DB}
       TZ: Asia/Shanghai
       MYSQL_ROOT_HOST: '%'
 

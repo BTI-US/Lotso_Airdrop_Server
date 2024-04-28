@@ -109,11 +109,33 @@ var (
 		Destination: &MysqlDB,
 	}
 
+	PairAddressFlag = cli.StringFlag{
+		Name:        "pairAddr",
+		Usage:       "Pair address",
+		EnvVar:      "PAIR_ADDRESS",
+		Destination: &PairAddress,
+	}
+
 	DecimalsFlag = cli.Uint64Flag{
 		Name:        "decimals",
 		Usage:       "Decimals of token",
 		Value:       18,
 		EnvVar:      "DECIMALS",
 		Destination: &Decimals,
+	}
+
+	BuyerRewardLimitFlag = cli.Uint64Flag{
+		Name:        "buyerRewardLimit",
+		Usage:       "Buyer reward limit",
+		Value:       10000000,
+		EnvVar:      "BUYER_REWARD_LIMIT",
+		Destination: &BuyerRewardLimit,
+	}
+	NotBuyerRewardLimitFlag = cli.Uint64Flag{
+		Name:        "notBuyerRewardLimit",
+		Usage:       "NotBuyer reward limit",
+		Value:       2000000,
+		EnvVar:      "NOT_BUYER_REWARD_LIMIT",
+		Destination: &NotBuyerRewardLimit,
 	}
 )

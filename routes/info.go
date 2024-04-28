@@ -15,6 +15,7 @@ func addInfoRoutesV1(rg *gin.RouterGroup) {
 	} else if flags.ApiMode == 1 {
 		info.POST("/set_airdrop", controller.SetAirdrop)
 		info.POST("/append_airdrop", controller.AppendAirdrop)
+		info.GET("/check_eligibility", controller.CheckEligibility)
 	}
 }
 
