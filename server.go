@@ -75,16 +75,16 @@ func ServerApp(ctx *cli.Context) error {
 
 func prepare(ctx *cli.Context) (err error) {
 	if !flags.IsValidCutoffBlock(flags.CutoffBlock) {
-		err = fmt.Errorf("invalid cutoff block")
+		err = fmt.Errorf("invalid cutoff block: %v", flags.CutoffBlock)
 		return
 	}
 	if !common.IsHexAddress(flags.ContractAddress) {
-		err = fmt.Errorf("invalid contract address")
+		err = fmt.Errorf("invalid contract address: %v", flags.ContractAddress)
 		return
 	}
 	flags.Contract = common.HexToAddress(flags.ContractAddress)
 	if !common.IsHexAddress(flags.PairAddress) {
-		err = fmt.Errorf("invalid pair address")
+		err = fmt.Errorf("invalid pair address: %v", flags.PairAddress)
 		return
 	}
 	flags.PairAddress = utils.Remove0xPrefix(flags.PairAddress)
