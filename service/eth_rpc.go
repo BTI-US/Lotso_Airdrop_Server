@@ -2,6 +2,7 @@ package service
 
 import (
 	"Lotso_Airdrop_Server/contracts"
+	"Lotso_Airdrop_Server/database/mysql"
 	"Lotso_Airdrop_Server/model"
 	"Lotso_Airdrop_Server/utils/flags"
 	"context"
@@ -180,4 +181,8 @@ func LotsoRecipientsCount() (recipientsCount *big.Int, err error) {
 func calAirdropAmount(airdropCount uint64) (amount *big.Int) {
 	amount = new(big.Int).Mul(new(big.Int).SetUint64(airdropCount), new(big.Int).Exp(new(big.Int).SetInt64(10), new(big.Int).SetUint64(flags.Decimals), nil))
 	return
+}
+
+func IsBuyer(address common.Address) (ok bool, err error) {
+	return mysql.TopicExist(flags.PairAddress, address.Hex()[2:])
 }

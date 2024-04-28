@@ -38,6 +38,7 @@ func AppendAirdropAmount(address string, appendCount uint64) (item *model.Airdro
 	if err != nil {
 		return
 	}
+
 	item.AirdropCount += appendCount
 	item.ScheduledDelivery = utils.NextOddHourTime()
 	err = db.Save(item).Error

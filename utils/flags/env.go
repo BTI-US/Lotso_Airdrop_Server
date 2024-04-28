@@ -22,7 +22,10 @@ var (
 	MysqlDB     string
 	MysqlPort   int
 
-	Decimals uint64
+	Decimals            uint64
+	BuyerRewardLimit    uint64
+	NotBuyerRewardLimit uint64
+	PairAddress         string
 
 	Debug bool
 

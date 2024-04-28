@@ -15,7 +15,7 @@ import (
 
 const (
 	clientIdentifier = "Lotso Airdrop Server"
-	clientVersion    = "1.1.0"
+	clientVersion    = "1.1.1"
 	clientUsage      = "Lotso Airdrop Server"
 )
 
@@ -23,16 +23,23 @@ var (
 	app       = cli.NewApp()
 	baseFlags = []cli.Flag{
 		flags.PortFlag,
-		flags.SslCertFlag,
-		flags.SslKeyFlag,
+		flags.DebugFlag,
+		flags.ApiModeFlag,
+		flags.BuyerRewardLimitFlag,
+		flags.NotBuyerRewardLimitFlag,
+	}
+	chainFlags = []cli.Flag{
 		flags.ApiUrlFlag,
 		flags.CutoffBlockFlag,
 		flags.ContractAddressFlag,
 		flags.PrivateKeyFlag,
 		flags.ChainIDFlag,
-		flags.DebugFlag,
 		flags.DecimalsFlag,
-		flags.ApiModeFlag,
+		flags.PairAddressFlag,
+	}
+	sslFlags = []cli.Flag{
+		flags.SslCertFlag,
+		flags.SslKeyFlag,
 	}
 	mysqlFlags = []cli.Flag{
 		flags.MysqlHostFlag,
@@ -50,6 +57,8 @@ func init() {
 	app.Usage = clientUsage
 	app.Commands = []cli.Command{}
 	app.Flags = append(app.Flags, baseFlags...)
+	app.Flags = append(app.Flags, chainFlags...)
+	app.Flags = append(app.Flags, sslFlags...)
 	app.Flags = append(app.Flags, mysqlFlags...)
 }
 
@@ -66,20 +75,23 @@ func ServerApp(ctx *cli.Context) error {
 
 func prepare(ctx *cli.Context) (err error) {
 	if !flags.IsValidCutoffBlock(flags.CutoffBlock) {
-		err = fmt.Errorf("invalid cutoff block")
+		err = fmt.Errorf("invalid cutoff block: %v", flags.CutoffBlock)
 		return
 	}
 	if !common.IsHexAddress(flags.ContractAddress) {
-		err = fmt.Errorf("invalid contract address")
+		err = fmt.Errorf("invalid contract address: %v", flags.ContractAddress)
 		return
 	}
 	flags.Contract = common.HexToAddress(flags.ContractAddress)
+	if !common.IsHexAddress(flags.PairAddress) {
+		err = fmt.Errorf("invalid pair address: %v", flags.PairAddress)
+		return
+	}
+	flags.PairAddress = utils.Remove0xPrefix(flags.PairAddress)
 	if !utils.Has0xPrefix(flags.CutoffBlock) {
 		flags.CutoffBlock = "0x" + flags.CutoffBlock
 	}
-	if utils.Has0xPrefix(flags.PrivateKey) {
-		flags.PrivateKey = flags.PrivateKey[2:]
-	}
+	flags.PrivateKey = utils.Remove0xPrefix(flags.PrivateKey)
 	if err = database.Setup(); err != nil {
 		return
 	}

@@ -30,8 +30,8 @@ services:
       PAIR_ADDRESS: ${PAIR_ADDRESS}
       BUYER_REWARD_LIMIT: ${BUYER_REWARD_LIMIT}
       NOT_BUYER_REWARD_LIMIT: ${NOT_BUYER_REWARD_LIMIT}
-        #SSL_CERT: /fullchain.pem
-        #SSL_KEY: /privkey.pem
+      SSL_CERT: /fullchain.pem
+      SSL_KEY: /privkey.pem
     networks:
       - ${NETWORK_NAME:-lotso-main-network}
 

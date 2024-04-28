@@ -146,16 +146,16 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
      - `address` (String): The blockchain address that will be appended airdrop to.
      - `amount` (Integer): The amount of airdrops to be appended, should <= 100000000.
    - **Response:**
-   
+
      - `address`: Wallet address of the current user, should be the same as the input address.
      - `transaction_count` (Integer): The number of transactions associated with the address.
      - `airdrop_count` (Integer): The airdrop count for the address.
      - `has_airdropped_count` (Boolean): The number of airdrops that have been issued to this address.
      - `scheduled_delivery` (String): The next available time for airdropping.
    - **Example:**
-   
+
      Request:
-   
+
      ```bash
      curl --location 'http://127.0.0.1:1423/v1/info/append_airdrop' \
      --header 'Content-Type: application/json' \
@@ -164,9 +164,9 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
          "amount": 100
      }'
      ```
-   
+
      Response:
-   
+
      ```json
      {
        "code": 0,
@@ -182,7 +182,37 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
      }
      ```
 
-4. **GET /v1/info/recipients_count**	*Only enabled when Debug=true*
+4. **GET /v1/info/check_eligibility**	*Only enabled when ApiMode=1*
+
+   - **Description:** Retrieves whether the specified address purchased the first Lotso Token before the attack.
+
+   - **Parameters:**
+
+     - `address` (String): The blockchain address that will be checked.
+
+   - **Response:**
+     
+     - `data` (Boolean): Whether the specified address purchased the first Lotso Token before the attack.
+     
+   - **Example:**
+     
+     Request:
+     
+     ```bash
+     curl --location 'http://127.0.0.1:1423/v1/info/check_eligibility?address=0x0000000000000000000000000000000000000001'
+     ```
+     
+     Response:
+     ```json
+     {
+       "code": 0,
+       "message": "Success",
+       "error": "",
+       "data": true
+     }
+     ```
+
+5. **GET /v1/info/recipients_count**	*Only enabled when Debug=true*
 
    - **Description:** Retrieves the recipient count for the airdrop.
 

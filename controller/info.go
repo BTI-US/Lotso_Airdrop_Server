@@ -104,7 +104,7 @@ func SetAirdrop(c *gin.Context) {
 	}
 
 	if param.Amount.Uint64() > 100000000 {
-		response := base.NewErrorResponse(errors.New("amount can should <= 100000000"), base.WrongParams)
+		response := base.NewErrorResponse(errors.New("amount should <= 100000000"), base.WrongParams)
 		c.JSON(http.StatusOK, response)
 		return
 	}
@@ -127,10 +127,36 @@ func AppendAirdrop(c *gin.Context) {
 	}
 
 	if param.Amount.Uint64() > 100000000 {
-		response := base.NewErrorResponse(errors.New("amount can should <= 100000000"), base.WrongParams)
+		response := base.NewErrorResponse(errors.New("amount should <= 100000000"), base.WrongParams)
 		c.JSON(http.StatusOK, response)
 		return
 	}
 
 	c.JSON(http.StatusOK, service.AppendAirdrop(common.HexToAddress(param.Address), param.Amount.Uint64()))
+}
+
+func CheckEligibility(c *gin.Context) {
+	address, ok := c.GetQuery("address")
+	if !ok {
+		response := base.NewErrorResponse(errors.New("missing parameter `address`"), base.WrongParams)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	if !common.IsHexAddress(address) {
+		response := base.NewErrorResponse(nil, base.InvalidAddress)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	isBuyer, err := service.IsBuyer(common.HexToAddress(address))
+	if err != nil {
+		response := base.NewErrorResponse(err, base.GetTransactionTopicFailed)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	response := base.NewDataResponse(isBuyer)
+	c.JSON(http.StatusOK, response)
+	return
 }

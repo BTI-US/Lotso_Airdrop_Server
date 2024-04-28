@@ -6,6 +6,7 @@ import (
 	"Lotso_Airdrop_Server/model"
 	"Lotso_Airdrop_Server/model/base"
 	"Lotso_Airdrop_Server/utils"
+	"Lotso_Airdrop_Server/utils/flags"
 	"crypto/ecdsa"
 	"errors"
 	"github.com/ethereum/go-ethereum/common"
@@ -189,7 +190,25 @@ func SetAirdrop(address common.Address, amount uint64) (response *base.Response)
 func AppendAirdrop(address common.Address, amount uint64) (response *base.Response) {
 	addressHex := address.Hex()
 
-	item, err := mysql.AppendAirdropAmount(addressHex[2:], amount)
+	item, err := mysql.GetAirdropItemByAddress(address.Hex())
+	if err != nil {
+		return base.NewErrorResponse(err, base.GetAirdropItemFailed)
+	}
+
+	isBuyer, err := IsBuyer(address)
+	if err != nil {
+		return base.NewErrorResponse(err, base.GetTransactionTopicFailed)
+	}
+
+	newAirdropCount := item.AirdropCount + amount
+
+	if (isBuyer && newAirdropCount > flags.BuyerRewardLimit) || (!isBuyer && newAirdropCount > flags.NotBuyerRewardLimit) {
+		response = base.NewErrorResponse(nil, base.RewardLimitReached)
+		response.Data = item
+		return
+	}
+
+	item, err = mysql.AppendAirdropAmount(addressHex[2:], amount)
 	if err != nil {
 		return base.NewErrorResponse(err, base.SaveAirdropItemFailed)
 	}
