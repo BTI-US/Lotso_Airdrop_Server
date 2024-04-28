@@ -99,7 +99,7 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
    - **Description:** Issue a specified number of airdrops to a specified address. Each address can only be specified once.
    - **Parameters:**
      
-     - `address` (String): The blockchain address which airdropped to.
+     - `address` (String): The blockchain address that airdropped to.
      - `amount` (Integer): The amount of airdrops to be distributed, should <= 100000000.
    - **Response:**
      
@@ -140,10 +140,10 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
 
 3. **POST /v1/info/append_airdrop**	*Only enabled when ApiMode=1*
 
-   - **Description:** Additional airdrops of the specified number will be issued to the specified address. The address to be appended the airdrop must first be `set_airdrop` called. Each address can be appended multiple times.
+   - **Description:** Additional airdrops of the specified number will be issued to the specified address. The address to be appended to the airdrop must first be `set_airdrop` called. Each address can be appended multiple times.
    - **Parameters:**
    
-     - `address` (String): The blockchain address which will be appended airdrop to.
+     - `address` (String): The blockchain address that will be appended airdrop to.
      - `amount` (Integer): The amount of airdrops to be appended, should <= 100000000.
    - **Response:**
    
@@ -157,7 +157,7 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
      Request:
    
      ```bash
-     curl --location 'http://127.0.0.1:1423/v1/info/set_airdrop' \
+     curl --location 'http://127.0.0.1:1423/v1/info/append_airdrop' \
      --header 'Content-Type: application/json' \
      --data '{
          "address":"0x0000000000000000000000000000000000000001",
@@ -262,65 +262,65 @@ IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MY
 
 7. **GET /v1/info/distribute_airdrops_to**	*Only enabled when Debug=true
 
-      - **Description:** Distribute a specified number of airdrops to a specified address.
-      - **Parameters:**
-           - `address` (String): The blockchain address which will be distributed airdrop to
-           - `amount` (Integer): The amount of airdrops to be distributed.
-      - **Response:**
-        - `data` (String): The transaction hash of distributing airdrops.
-      - **Example:**
+   - **Description:** Distribute a specified number of airdrops to a specified address.
+   - **Parameters:**
+        - `address` (String): The blockchain address which will be distributed airdrop to
+        - `amount` (Integer): The amount of airdrops to be distributed.
+   - **Response:**
+     - `data` (String): The transaction hash of distributing airdrops.
+   - **Example:**
+     
+        Request:
         
-           Request:
-           
-           ```bash
-           curl --location 'http://127.0.0.1:1423/v1/info/distribute_airdrops_to' \
-           --header 'Content-Type: application/json' \
-           --data '{
-               "address":"0x0000000000000000000000000000000000000001",
-               "amount": 1000000
-           }'
-           ```
-           
-           Response:
-           ```json
-           {
-             "code": 0,
-             "message": "Success",
-             "error": "",
-             "data": "0x58fad0f6535a3beda4dd8c1c39d1fe350c7d9518e55999e5ab11f40c4129fdb1"
-           }
-           ```
+        ```bash
+        curl --location 'http://127.0.0.1:1423/v1/info/distribute_airdrops_to' \
+        --header 'Content-Type: application/json' \
+        --data '{
+            "address":"0x0000000000000000000000000000000000000001",
+            "amount": 1000000
+        }'
+        ```
+        
+        Response:
+        ```json
+        {
+          "code": 0,
+          "message": "Success",
+          "error": "",
+          "data": "0x58fad0f6535a3beda4dd8c1c39d1fe350c7d9518e55999e5ab11f40c4129fdb1"
+        }
+        ```
 
-  8. **GET /v1/info/claim_airdrop**	*Only enabled when Debug=true
+8. **GET /v1/info/claim_airdrop**	*Only enabled when Debug=true
 
-     - **Description:** Receive airdrops as a designated account
-     - **Parameters:**
-          - `private_key` (String): The blockchain address which will be distributed airdrop to.
+   - **Description:** Receive airdrops as a designated account
+   - **Parameters:**
+       - `private_key` (String): The blockchain address which will be distributed airdrop to.
 
-     - **Response:**
-       - `data` (String): The transaction hash of distributing airdrops.
+   - **Response:**
+    - `data` (String): The transaction hash of distributing airdrops.
 
-     - **Example:**
+   - **Example:**
+    
+       Request:
        
-          Request:
-          
-          ```bash
-          curl --location 'http://127.0.0.1:1423/v1/info/claim_airdrop' \
-          --header 'Content-Type: application/json' \
-          --data '{
-              "private_key":"0x0000000000000000000000000000000000000000000000000000000000000001"
-          }'
-          ```
-          
-          Response:
-          ```json
-          {
-            "code": 0,
-            "message": "Success",
-            "error": "",
-            "data": "0x58fad0f6535a3beda4dd8c1c39d1fe350c7d9518e55999e5ab11f40c4129fdb1"
-          }
-          ```
+       ```bash
+       curl --location 'http://127.0.0.1:1423/v1/info/claim_airdrop' \
+       --header 'Content-Type: application/json' \
+       --data '{
+           "private_key":"0x0000000000000000000000000000000000000000000000000000000000000001"
+       }'
+       ```
+       
+       Response:
+       ```json
+       {
+         "code": 0,
+         "message": "Success",
+         "error": "",
+         "data": "0x58fad0f6535a3beda4dd8c1c39d1fe350c7d9518e55999e5ab11f40c4129fdb1"
+       }
+       ```
 
 
 ## License
