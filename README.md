@@ -15,6 +15,7 @@
   - [Features](#features)
   - [Requirements](#requirements)
   - [Diagram](#diagram)
+    - [Setting the docker network](#setting-the-docker-network)
   - [Usage](#usage)
   - [REST API Endpoints](#rest-api-endpoints)
   - [License](#license)
@@ -40,18 +41,111 @@ The server runs a scheduled task, which will obtain data from the MySQL database
 
 - [] Need to be updated
 
+### Setting the docker network
+
+We need to create a docker network to allow the containers to communicate with each other. Run the following command:
+```bash
+docker network create lotso-network
+```
+
 ## Usage
 
 (Base-Mainnet) Start the docker container for the production environment:
 
 ```bash
-IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8080 MYSQL_HOST=127.0.0.1 MYSQL_PORT=3306 MYSQL_USER=root MYSQL_PASSWD=your_mysql_database_password MYSQL_DB=lotso_base_main API_URL=your_api_url PRIVATE_KEY=your_private_key CHAIN_ID=8453 CUTOFF_BLOCK=0xbede7c CONTRACT_ADDRESS=your_airdrop_contract_address DEBUG=False TZ=UTC API_MODE=1 DECIMALS=18 docker-compose -f docker-compose.yaml up -d
+IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
+SERVER_PORT=8080 \
+MYSQL_HOST=127.0.0.1 \
+MYSQL_PORT=3306 \
+MYSQL_USER=root \
+MYSQL_PASSWD=your_mysql_database_password \
+MYSQL_DB=lotso_base_main \
+API_URL=your_api_url \
+PRIVATE_KEY=your_private_key \
+CHAIN_ID=8453 CUTOFF_BLOCK=0xbede7c \
+CONTRACT_ADDRESS=your_airdrop_contract_address \
+DEBUG=False \
+TZ=UTC \
+API_MODE=1 \
+DECIMALS=18 \
+PAIR_ADDRESS=your_pair_address \
+BUYER_REWARD_LIMIT=10000000 \
+NOT_BUYER_REWARD_LIMIT=2000000 \
+docker-compose -f docker-compose.yaml up -d
+```
+
+(Base-Mainnet) Stop the docker container for the production environment:
+
+```bash
+IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
+SERVER_PORT=8080 \
+MYSQL_HOST=127.0.0.1 \
+MYSQL_PORT=3306 \
+MYSQL_USER=root \
+MYSQL_PASSWD=your_mysql_database_password \
+MYSQL_DB=lotso_base_main \
+API_URL=your_api_url \
+PRIVATE_KEY=your_private_key \
+CHAIN_ID=8453 CUTOFF_BLOCK=0xbede7c \
+CONTRACT_ADDRESS=your_airdrop_contract_address \
+DEBUG=False \
+TZ=UTC \
+API_MODE=1 \
+DECIMALS=18 \
+PAIR_ADDRESS=your_pair_address \
+BUYER_REWARD_LIMIT=10000000 \
+NOT_BUYER_REWARD_LIMIT=2000000 \
+docker-compose -f docker-compose.yaml down
 ```
 
 (ETH-Sepolia) Start the docker container for the test-net environment:
 
 ```bash
-IMG_NAME=bti/lotso-airdrop-server:0.0.1 SERVER_PORT=8081 MYSQL_HOST=127.0.0.1 MYSQL_PORT=3306 MYSQL_USER=root MYSQL_PASSWD=your_mysql_database_password MYSQL_DB=lotso_eth_sepolia API_URL=your_api_url PRIVATE_KEY=your_private_key CHAIN_ID=11155111 CUTOFF_BLOCK=0x556df8 CONTRACT_ADDRESS=your_airdrop_contract_address DEBUG=True TZ=UTC API_MODE=1 DECIMALS=18 docker-compose -f docker-compose.yaml up -d
+IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
+SERVER_PORT=8081 \
+MYSQL_HOST=127.0.0.1 \
+MYSQL_PORT=3306 \
+MYSQL_USER=root \
+MYSQL_PASSWD=your_mysql_database_password \
+MYSQL_DB=lotso_eth_sepolia \
+API_URL=your_api_url \
+PRIVATE_KEY=your_private_key \
+CHAIN_ID=11155111 \
+CUTOFF_BLOCK=0x556df8 \
+CONTRACT_ADDRESS=your_airdrop_contract_address \
+DEBUG=True \
+TZ=UTC \
+API_MODE=1 \
+DECIMALS=18 \
+PAIR_ADDRESS=your_pair_address \
+BUYER_REWARD_LIMIT=10000000 \
+NOT_BUYER_REWARD_LIMIT=2000000 \
+docker-compose -f docker-compose.yaml up -d
+```
+
+(ETH-Sepolia) Stop the docker container for the test-net environment:
+
+```bash
+IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
+SERVER_PORT=8081 \
+MYSQL_HOST=127.0.0.1 \
+MYSQL_PORT=3306 \
+MYSQL_USER=root \
+MYSQL_PASSWD=your_mysql_database_password \
+MYSQL_DB=lotso_eth_sepolia \
+API_URL=your_api_url \
+PRIVATE_KEY=your_private_key \
+CHAIN_ID=11155111 \
+CUTOFF_BLOCK=0x556df8 \
+CONTRACT_ADDRESS=your_airdrop_contract_address \
+DEBUG=True \
+TZ=UTC \
+API_MODE=1 \
+DECIMALS=18 \
+PAIR_ADDRESS=your_pair_address \
+BUYER_REWARD_LIMIT=10000000 \
+NOT_BUYER_REWARD_LIMIT=2000000 \
+docker-compose -f docker-compose.yaml down
 ```
 
 ## REST API Endpoints

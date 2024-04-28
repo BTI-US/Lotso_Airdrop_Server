@@ -33,7 +33,7 @@ services:
       SSL_CERT: /fullchain.pem
       SSL_KEY: /privkey.pem
     networks:
-      - ${NETWORK_NAME:-lotso-main-network}
+      - lotso-network
 
 #   mysql:
 #     image: mysql:8.0.27
@@ -54,5 +54,5 @@ services:
 #   mysql-data:
 
 networks:
-  ${NETWORK_NAME:-lotso-main-network}:
+  lotso-network:
     external: true
