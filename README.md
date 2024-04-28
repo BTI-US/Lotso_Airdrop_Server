@@ -55,7 +55,7 @@ docker network create lotso-network
 ```bash
 IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
 SERVER_PORT=8080 \
-MYSQL_HOST=127.0.0.1 \
+MYSQL_HOST=host.docker.internal \
 MYSQL_PORT=3306 \
 MYSQL_USER=root \
 MYSQL_PASSWD=your_mysql_database_password \
@@ -79,7 +79,7 @@ docker-compose -f docker-compose.yaml up -d
 ```bash
 IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
 SERVER_PORT=8080 \
-MYSQL_HOST=127.0.0.1 \
+MYSQL_HOST=host.docker.internal \
 MYSQL_PORT=3306 \
 MYSQL_USER=root \
 MYSQL_PASSWD=your_mysql_database_password \
@@ -103,7 +103,7 @@ docker-compose -f docker-compose.yaml down
 ```bash
 IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
 SERVER_PORT=8081 \
-MYSQL_HOST=127.0.0.1 \
+MYSQL_HOST=host.docker.internal \
 MYSQL_PORT=3306 \
 MYSQL_USER=root \
 MYSQL_PASSWD=your_mysql_database_password \
@@ -128,7 +128,7 @@ docker-compose -f docker-compose.yaml up -d
 ```bash
 IMG_NAME=bti/lotso-airdrop-server:0.0.1 \
 SERVER_PORT=8081 \
-MYSQL_HOST=127.0.0.1 \
+MYSQL_HOST=host.docker.internal \
 MYSQL_PORT=3306 \
 MYSQL_USER=root \
 MYSQL_PASSWD=your_mysql_database_password \

@@ -13,7 +13,7 @@ services:
     #   - mysql
     environment:
       SERVER_PORT: ${SERVER_PORT}
-      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_HOST: ${MYSQL_HOST:-host.docker.internal}
       MYSQL_PORT: ${MYSQL_PORT}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWD: ${MYSQL_PASSWD}
@@ -34,6 +34,8 @@ services:
       SSL_KEY: /privkey.pem
     networks:
       - lotso-network
+    extra_hosts:
+      - "${MYSQL_HOST:-host.docker.internal}:host-gateway"
 
 #   mysql:
 #     image: mysql:8.0.27
