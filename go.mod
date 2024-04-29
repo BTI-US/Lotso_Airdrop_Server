@@ -10,7 +10,7 @@ require (
 	github.com/unrolled/secure v1.14.0
 	gopkg.in/urfave/cli.v1 v1.20.0
 	gorm.io/driver/mysql v1.5.6
-	gorm.io/gorm v1.25.9
+	gorm.io/gorm v1.25.10
 )
 
 require (
