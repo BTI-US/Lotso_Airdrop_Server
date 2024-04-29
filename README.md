@@ -35,7 +35,7 @@ The server runs a scheduled task, which will obtain data from the MySQL database
 
 ## Requirements
 
-- [Go 1.21](https://golang.org/)
+- [Go 1.22](https://golang.org/)
 - [Docker](https://www.docker.com/)
 - API Key from [Pocket Network](https://www.pokt.network/) for the production environment
 - API Key from [Alchemy](https://www.alchemy.com/) for the test-net environment
