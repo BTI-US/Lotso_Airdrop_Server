@@ -19,7 +19,7 @@
   - [Usage](#usage)
   - [REST API Endpoints](#rest-api-endpoints)
   - [Shell Scripts](#shell-scripts)
-    - [Manually Trigger Airdrop](#manually-trigger-airdrop)
+    - [Delete Airdrop Record](#delete-airdrop-record)
     - [Add Whitelist for Address](#add-whitelist-for-address)
   - [License](#license)
 
@@ -35,7 +35,7 @@ The server runs a scheduled task, which will obtain data from the MySQL database
 
 ## Requirements
 
-- [Go 1.21](https://golang.org/)
+- [Go 1.22](https://golang.org/)
 - [Docker](https://www.docker.com/)
 - API Key from [Pocket Network](https://www.pokt.network/) for the production environment
 - API Key from [Alchemy](https://www.alchemy.com/) for the test-net environment
@@ -361,7 +361,7 @@ docker-compose -f docker-compose.yaml down
      ```
 
 
-5. **GET /v1/info/addresses_should_airdrop**	*Only enabled when Debug=true*
+6. **GET /v1/info/addresses_should_airdrop**	*Only enabled when Debug=true*
 
    - **Description:** Retrieve the address and quantity of the next airdrop. The amount of the next airdrop is `airdrop_count` minus `has_airdropped_count`.
 
@@ -386,7 +386,7 @@ docker-compose -f docker-compose.yaml down
      }
      ```
 
-6. **GET /v1/info/distribute_airdrops**	*Only enabled when Debug=true*
+7. **GET /v1/info/distribute_airdrops**	*Only enabled when Debug=true*
 
    - **Description:** Distribute airdrops.
 
@@ -413,7 +413,7 @@ docker-compose -f docker-compose.yaml down
      }
      ```
 
-7. **GET /v1/info/distribute_airdrops_to**	*Only enabled when Debug=true
+8. **GET /v1/info/distribute_airdrops_to**	*Only enabled when Debug=true
 
    - **Description:** Distribute a specified number of airdrops to a specified address.
    - **Parameters:**
@@ -444,7 +444,7 @@ docker-compose -f docker-compose.yaml down
         }
         ```
 
-8. **GET /v1/info/claim_airdrop**	*Only enabled when Debug=true
+9. **GET /v1/info/claim_airdrop**	*Only enabled when Debug=true
 
    - **Description:** Receive airdrops as a designated account
    - **Parameters:**
@@ -504,14 +504,14 @@ All possible return codes are as follows:
 
 For testing purposes, we provide two scripts: `manually_trigger_airdrop.sh` and `add_whitelist_for_address.sh`. The first script updates specific records in a MySQL database based on user input, while the second script allows for the insertion or deletion of records in a specific table. Both scripts are designed to be run directly from the terminal.
 
-### Manually Trigger Airdrop
+### Delete Airdrop Record
 
-This script is used to interact with a MySQL database to update records in a specific table. The script prompts the user for an address and a time interval. It then updates the record with the specified address, setting the `transaction_count`, `has_airdropped_count`, and `scheduled_delivery` fields.
+This script is used to interact with a MySQL database to update records in a specific table. The script prompts the user for an address. It then deletes the record with the specified address from the table.
 
 Run the script in a terminal:
 
 ```bash
-./manually_trigger_airdrop.sh
+./delete_airdrop_record.sh
 ```
 
 You will be prompted to enter the MySQL root password if it's not set as an environment variable. Then, you will be asked to enter the address to update and the time interval for scheduled delivery.
