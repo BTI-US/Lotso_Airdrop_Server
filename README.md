@@ -53,6 +53,32 @@ docker network create lotso-network
 
 ## Usage
 
+### Required Environment Variables
+
+| Env Name               | Type   | Default     | Must be declared | Description                                                  |
+| ---------------------- | ------ | ----------- | ---------------- | ------------------------------------------------------------ |
+| SERVER_PORT            | String | "1423"      |                  | Server port                                                  |
+| API_MODE               | Int    | 1           |                  | ApiMode, must be 1 or 0                                      |
+| SSL_CERT               | String | ""          |                  | SSL cert path                                                |
+| SSL_KEY                | String | ""          |                  | SSL key path                                                 |
+| DEBUG                  | Bool   | false       |                  | Enable debug API                                             |
+| API_URL                | String | ""          | Yes              | Api url which is used to connect to the RPC interface of the chain |
+| PRIVATE_KEY            | String | ""          | Yes              | Account private key used to issue airdrops regularly, hexadecimal string type |
+| CHAIN_ID               | Int64  | 0           | Yes              | The chain ID which server will connect to                    |
+| CUTOFF_BLOCK           | String | "latest"    |                  | When counting the number of transactions, the number of transactions before this block will be counted |
+| CONTRACT_ADDRESS       | String | ""          | Yes              | The airdrop contract address, hexadecimal string type        |
+| MYSQL_HOST             | String | "127.0.0.1" |                  | Mysql host                                                   |
+| MYSQL_PORT             | Int    | 3306        |                  | Mysql port                                                   |
+| MYSQL_USER             | String | "root"      |                  | Mysql user                                                   |
+| MYSQL_PASSWD           | String | "123456"    |                  | Mysql password                                               |
+| MYSQL_DB               | String | "lotso"     |                  | Mysql database                                               |
+| PAIR_ADDRESS           | String | ""          | Yes              | The uniswapPair address used to count buyers                 |
+| DECIMALS               | Uint64 | 18          |                  | Decimals of token                                            |
+| BUYER_REWARD_LIMIT     | Uint64 | 10000000    |                  | Buyer reward limit                                           |
+| NOT_BUYER_REWARD_LIMIT | Uint64 | 2000000     |                  | NotBuyer reward limit                                        |
+
+### Bash command for docker-compose
+
 (Base-Mainnet) Start the docker container for the production environment:
 
 ```bash
@@ -428,7 +454,7 @@ docker-compose -f docker-compose.yaml down
     - `data` (String): The transaction hash of distributing airdrops.
 
    - **Example:**
-    
+   
        Request:
        
        ```bash
@@ -448,6 +474,31 @@ docker-compose -f docker-compose.yaml down
          "data": "0x58fad0f6535a3beda4dd8c1c39d1fe350c7d9518e55999e5ab11f40c4129fdb1"
        }
        ```
+
+### Return Code
+
+Return code includes two parts: code and message, which are used to indicate the information returned by the HTTP API.
+
+All possible return codes are as follows:
+
+| Name                      | Code  | Message                      |
+| ------------------------- | ----- | ---------------------------- |
+| SUCCESS                   | 0     | Success                      |
+| UnknownError              | 10000 | Unknown error                |
+| WrongParams               | 10001 | Wrong params                 |
+| DialApiServerFailed       | 10002 | Dial API server failed       |
+| InvalidAddress            | 10003 | Invalid address              |
+| EthApiCallFailed          | 10004 | ETH API call failed          |
+| ConvertFailed             | 10005 | Convert failed               |
+| AirdropItemAlreadyExists  | 10006 | You have applied the airdrop |
+| AirdropItemNotExists      | 10007 | Airdrop item not exists      |
+| GetAirdropItemFailed      | 10008 | Get airdrop item failed      |
+| SaveAirdropItemFailed     | 10009 | Save airdrop item failed     |
+| DistributeAirdropsFailed  | 10010 | Distribute airdrops failed   |
+| ClaimAirdropsFailed       | 10011 | Claim airdrops failed        |
+| RecipientsCountFailed     | 10012 | Get recipients count failed  |
+| GetTransactionTopicFailed | 10013 | Get transaction topic failed |
+| RewardLimitReached        | 10014 | Reward limit reached         |
 
 ## Shell Scripts
 
