@@ -18,6 +18,9 @@
     - [Setting the docker network](#setting-the-docker-network)
   - [Usage](#usage)
   - [REST API Endpoints](#rest-api-endpoints)
+  - [Shell Scripts](#shell-scripts)
+    - [Manually Trigger Airdrop](#manually-trigger-airdrop)
+    - [Add Whitelist for Address](#add-whitelist-for-address)
   - [License](#license)
 
 ## Introduction
@@ -446,6 +449,33 @@ docker-compose -f docker-compose.yaml down
        }
        ```
 
+## Shell Scripts
+
+For testing purposes, we provide two scripts: `manually_trigger_airdrop.sh` and `add_whitelist_for_address.sh`. The first script updates specific records in a MySQL database based on user input, while the second script allows for the insertion or deletion of records in a specific table. Both scripts are designed to be run directly from the terminal.
+
+### Manually Trigger Airdrop
+
+This script is used to interact with a MySQL database to update records in a specific table. The script prompts the user for an address and a time interval. It then updates the record with the specified address, setting the `transaction_count`, `has_airdropped_count`, and `scheduled_delivery` fields.
+
+Run the script in a terminal:
+
+```bash
+./manually_trigger_airdrop.sh
+```
+
+You will be prompted to enter the MySQL root password if it's not set as an environment variable. Then, you will be asked to enter the address to update and the time interval for scheduled delivery.
+
+### Add Whitelist for Address
+
+This script is used to interact with a MySQL database to either insert or delete records in a specific table. The script prompts the user for an address and an action (either "update" or "delete"). If the user enters "update", the script inserts a new record into the table with the specified address. If the user enters "delete", the script deletes the record with the specified address from the table.
+
+Run the script in a terminal:
+
+```bash
+./add_whitelist_for_address.sh
+```
+
+You will be prompted to enter the MySQL root password if it's not set as an environment variable. Then, you will be asked to enter the address to update and the action to perform (either "update" or "delete").
 
 ## License
 
