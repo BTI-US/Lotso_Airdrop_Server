@@ -31,7 +31,7 @@ func TlsHandler(port string) gin.HandlerFunc {
 // Run will start the server
 func Run(port string) {
 	getRoutes()
-	if len(flags.SslCertPath) != 0 && len(flags.SslKeyPath) != 0 {
+	if flags.SslEnabled {
 		router.Use(TlsHandler(port))
 		log.Info("SSL is enabled.")
 		log.Fatal(router.RunTLS(":"+port, flags.SslCertPath, flags.SslKeyPath))

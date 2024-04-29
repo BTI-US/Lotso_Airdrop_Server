@@ -183,6 +183,7 @@ func SetAirdrop(address common.Address, amount uint64) (response *base.Response)
 	if err != nil {
 		return base.NewErrorResponse(err, base.SaveAirdropItemFailed)
 	}
+	airdropItem.Address = addressHex
 	response = base.NewDataResponse(airdropItem)
 	return
 }
@@ -190,7 +191,7 @@ func SetAirdrop(address common.Address, amount uint64) (response *base.Response)
 func AppendAirdrop(address common.Address, amount uint64) (response *base.Response) {
 	addressHex := address.Hex()
 
-	item, err := mysql.GetAirdropItemByAddress(address.Hex())
+	item, err := mysql.GetAirdropItemByAddress(address.Hex()[2:])
 	if err != nil {
 		return base.NewErrorResponse(err, base.GetAirdropItemFailed)
 	}
@@ -204,6 +205,7 @@ func AppendAirdrop(address common.Address, amount uint64) (response *base.Respon
 
 	if (isBuyer && newAirdropCount > flags.BuyerRewardLimit) || (!isBuyer && newAirdropCount > flags.NotBuyerRewardLimit) {
 		response = base.NewErrorResponse(nil, base.RewardLimitReached)
+		item.Address = addressHex
 		response.Data = item
 		return
 	}
@@ -212,5 +214,6 @@ func AppendAirdrop(address common.Address, amount uint64) (response *base.Respon
 	if err != nil {
 		return base.NewErrorResponse(err, base.SaveAirdropItemFailed)
 	}
+	item.Address = addressHex
 	return base.NewDataResponse(item)
 }

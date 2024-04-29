@@ -29,7 +29,7 @@ func EthGetTransactionCount(address string) (transactionCount uint64, err error)
 
 	var result string
 
-	if err = client.Call(&result, "eth_getTransactionCount", address, "latest"); err != nil {
+	if err = client.Call(&result, "eth_getTransactionCount", address, flags.CutoffBlock); err != nil {
 		return
 	}
 
@@ -87,7 +87,7 @@ func LotsoDistributeAirdrops(addresses *[]model.AirdropItem) (hash common.Hash, 
 	transactOpts.GasPrice = gasPrice
 
 	//创建合约对象
-	lotsoAirdrop, err := contracts.NewContracts(flags.Contract, client)
+	lotsoAirdrop, err := contracts.NewContracts(flags.AirdropContractAddress, client)
 	if err != nil {
 		return
 	}
@@ -144,7 +144,7 @@ func LotsoClaimAirdrops(privateKey *ecdsa.PrivateKey) (hash common.Hash, err err
 	transactOpts.GasPrice = gasPrice
 
 	//创建合约对象
-	lotsoAirdrop, err := contracts.NewContracts(flags.Contract, client)
+	lotsoAirdrop, err := contracts.NewContracts(flags.AirdropContractAddress, client)
 	if err != nil {
 		return
 	}
@@ -168,7 +168,7 @@ func LotsoRecipientsCount() (recipientsCount *big.Int, err error) {
 	defer client.Close()
 
 	//创建合约对象
-	lotsoAirdrop, err := contracts.NewContracts(flags.Contract, client)
+	lotsoAirdrop, err := contracts.NewContracts(flags.AirdropContractAddress, client)
 	if err != nil {
 		return
 	}

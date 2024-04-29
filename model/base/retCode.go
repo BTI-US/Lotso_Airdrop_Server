@@ -9,7 +9,7 @@ var (
 	InvalidAddress            = NewRetCode(10003, "Invalid address")
 	EthApiCallFailed          = NewRetCode(10004, "ETH API call failed")
 	ConvertFailed             = NewRetCode(10005, "Convert failed")
-	AirdropItemAlreadyExists  = NewRetCode(10006, "Airdrop item already exists")
+	AirdropItemAlreadyExists  = NewRetCode(10006, "You have applied the airdrop") // Airdrop item already exists
 	AirdropItemNotExists      = NewRetCode(10007, "Airdrop item not exists")
 	GetAirdropItemFailed      = NewRetCode(10008, "Get airdrop item failed")
 	SaveAirdropItemFailed     = NewRetCode(10009, "Save airdrop item failed")

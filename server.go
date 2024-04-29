@@ -4,10 +4,8 @@ import (
 	"Lotso_Airdrop_Server/cron"
 	"Lotso_Airdrop_Server/database"
 	"Lotso_Airdrop_Server/routes"
-	"Lotso_Airdrop_Server/utils"
 	"Lotso_Airdrop_Server/utils/flags"
 	"fmt"
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/labstack/gommon/log"
 	"gopkg.in/urfave/cli.v1"
 	"os"
@@ -74,24 +72,7 @@ func ServerApp(ctx *cli.Context) error {
 }
 
 func prepare(ctx *cli.Context) (err error) {
-	if !flags.IsValidCutoffBlock(flags.CutoffBlock) {
-		err = fmt.Errorf("invalid cutoff block: %v", flags.CutoffBlock)
-		return
-	}
-	if !common.IsHexAddress(flags.ContractAddress) {
-		err = fmt.Errorf("invalid contract address: %v", flags.ContractAddress)
-		return
-	}
-	flags.Contract = common.HexToAddress(flags.ContractAddress)
-	if !common.IsHexAddress(flags.PairAddress) {
-		err = fmt.Errorf("invalid pair address: %v", flags.PairAddress)
-		return
-	}
-	flags.PairAddress = utils.Remove0xPrefix(flags.PairAddress)
-	if !utils.Has0xPrefix(flags.CutoffBlock) {
-		flags.CutoffBlock = "0x" + flags.CutoffBlock
-	}
-	flags.PrivateKey = utils.Remove0xPrefix(flags.PrivateKey)
+	flags.ProcessFlags()
 	if err = database.Setup(); err != nil {
 		return
 	}
