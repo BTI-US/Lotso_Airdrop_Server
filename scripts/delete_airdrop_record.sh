@@ -27,23 +27,25 @@ DATABASE="lotso2_eth_sepolia"
 TABLE="airdrop_items"
 USE_HOST=true
 
-# Execute commands inside MySQL container or host based on USE_HOST variable
+# Check if the record exists and delete it if it does
 if [ "$USE_HOST" = true ]; then
     mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
     USE $DATABASE;
-    show tables;
-    DELETE FROM \`$DATABASE\`.\`$TABLE\` WHERE address='$ADDRESS';
+    SELECT COUNT(*) FROM $TABLE WHERE address='$ADDRESS';
+    -- Conditional delete
+    DELETE FROM $TABLE WHERE address='$ADDRESS' AND (SELECT COUNT(*) FROM $TABLE WHERE address='$ADDRESS') > 0;
     SELECT ROW_COUNT();
     COMMIT;
 EOF
 else
     docker exec -i mysql_sepolia mysql -u root -p$MYSQL_ROOT_PASSWORD <<EOF
     USE $DATABASE;
-    show tables;
-    DELETE FROM \`$DATABASE\`.\`$TABLE\` WHERE address='$ADDRESS';
+    SELECT COUNT(*) FROM $TABLE WHERE address='$ADDRESS';
+    -- Conditional delete
+    DELETE FROM $TABLE WHERE address='$ADDRESS' AND (SELECT COUNT(*) FROM $TABLE WHERE address='$ADDRESS') > 0;
     SELECT ROW_COUNT();
     COMMIT;
 EOF
 fi
 
-echo "Commands executed successfully."
+echo "Conditional delete command executed successfully."

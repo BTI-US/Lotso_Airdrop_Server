@@ -17,9 +17,12 @@
   - [Diagram](#diagram)
     - [Setting the docker network](#setting-the-docker-network)
   - [Usage](#usage)
+    - [Required Environment Variables](#required-environment-variables)
+    - [Bash command for docker-compose](#bash-command-for-docker-compose)
   - [REST API Endpoints](#rest-api-endpoints)
+    - [Return Code](#return-code)
   - [Shell Scripts](#shell-scripts)
-    - [Delete Airdrop Record](#delete-airdrop-record)
+    - [Delete and Re-add the Airdrop Record](#delete-and-re-add-the-airdrop-record)
     - [Add Whitelist for Address](#add-whitelist-for-address)
   - [License](#license)
 
@@ -502,7 +505,7 @@ All possible return codes are as follows:
 
 ## Shell Scripts
 
-For testing purposes, we provide two scripts: `manually_trigger_airdrop.sh` and `add_whitelist_for_address.sh`. The first script updates specific records in a MySQL database based on user input, while the second script allows for the insertion or deletion of records in a specific table. Both scripts are designed to be run directly from the terminal.
+For testing purposes, we provide two scripts: `delete_airdrop_record.sh` and `add_whitelist_for_address.sh`. The first script updates specific records in a MySQL database based on user input, while the second script allows for the insertion or deletion of records in a specific table. Both scripts are designed to be run directly from the terminal.
 
 ### Delete Airdrop Record
 
