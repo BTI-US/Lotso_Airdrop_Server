@@ -386,7 +386,7 @@ docker-compose -f docker-compose.yaml down
      }
      ```
 
-7. **GET /v1/info/distribute_airdrops**	*Only enabled when Debug=true*
+7. **POST /v1/info/distribute_airdrops**	*Only enabled when Debug=true*
 
    - **Description:** Distribute airdrops.
 
@@ -413,7 +413,7 @@ docker-compose -f docker-compose.yaml down
      }
      ```
 
-8. **GET /v1/info/distribute_airdrops_to**	*Only enabled when Debug=true
+8. **POST /v1/info/distribute_airdrops_to**	*Only enabled when Debug=true
 
    - **Description:** Distribute a specified number of airdrops to a specified address.
    - **Parameters:**
@@ -444,7 +444,7 @@ docker-compose -f docker-compose.yaml down
         }
         ```
 
-9. **GET /v1/info/claim_airdrop**	*Only enabled when Debug=true
+9. **POST /v1/info/claim_airdrop**	*Only enabled when Debug=true
 
    - **Description:** Receive airdrops as a designated account
    - **Parameters:**
