@@ -22,8 +22,9 @@
   - [REST API Endpoints](#rest-api-endpoints)
     - [Return Code](#return-code)
   - [Shell Scripts](#shell-scripts)
-    - [Delete and Re-add the Airdrop Record](#delete-and-re-add-the-airdrop-record)
+    - [Delete Airdrop Record](#delete-airdrop-record)
     - [Add Whitelist for Address](#add-whitelist-for-address)
+    - [Change Distribution Time](#change-distribution-time)
   - [License](#license)
 
 ## Introduction
@@ -531,6 +532,18 @@ Run the script in a terminal:
 ```
 
 You will be prompted to enter the MySQL root password if it's not set as an environment variable. Then, you will be asked to enter the address to update and the action to perform (either "update" or "delete").
+
+### Change Distribution Time
+
+This script is used to interact with a MySQL database to update records in a specific table. The script prompts the user for an address and a new distribution time interval based on the current UTC. It then updates the record with the specified address in the table with the new distribution time.
+
+Run the script in a terminal:
+
+```bash
+./change_distribute_time.sh
+```
+
+You will be prompted to enter the MySQL root password if it's not set as an environment variable. Then, you will be asked to enter the address to update and the new distribution time interval in minutes for scheduled delivery (positive for the future, negative for the past).
 
 ## License
 
