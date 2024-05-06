@@ -138,7 +138,7 @@ func ClaimAirdrop(privateKey *ecdsa.PrivateKey) (response *base.Response) {
 }
 
 var (
-	recipientInfo             = []*big.Int{big.NewInt(0), big.NewInt(0)}
+	recipientInfo             = model.RecipientInfo{RecipientCount: big.NewInt(0), AirdropAmount: big.NewInt(0)}
 	recipientsCountLastUpdate int64
 )
 
@@ -156,9 +156,10 @@ func RecipientInfo() (response *base.Response) {
 		response.Data = recipientInfo
 		return
 	}
-	recipientInfo = info
+	recipientInfo.RecipientCount = info[0]
+	recipientInfo.AirdropAmount = info[1]
 
-	response = base.NewDataResponse(info)
+	response = base.NewDataResponse(recipientInfo)
 	return
 }
 
