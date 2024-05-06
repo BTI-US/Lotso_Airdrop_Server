@@ -138,27 +138,27 @@ func ClaimAirdrop(privateKey *ecdsa.PrivateKey) (response *base.Response) {
 }
 
 var (
-	recipientsCount, _        = new(big.Int).SetString("0", 10)
+	recipientInfo             = []*big.Int{big.NewInt(0), big.NewInt(0)}
 	recipientsCountLastUpdate int64
 )
 
-func RecipientsCount() (response *base.Response) {
+func RecipientInfo() (response *base.Response) {
 	now := time.Now().Unix()
 	if now-recipientsCountLastUpdate < 30 {
-		response = base.NewDataResponse(recipientsCount)
+		response = base.NewDataResponse(recipientInfo)
 		return
 	}
 
 	recipientsCountLastUpdate = now
-	count, err := LotsoRecipientsCount()
+	info, err := LotsoRecipientInfo()
 	if err != nil {
 		response = base.NewErrorResponse(err, base.RecipientsCountFailed)
-		response.Data = recipientsCount
+		response.Data = recipientInfo
 		return
 	}
-	recipientsCount = count
+	recipientInfo = info
 
-	response = base.NewDataResponse(count)
+	response = base.NewDataResponse(info)
 	return
 }
 
