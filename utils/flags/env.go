@@ -25,6 +25,7 @@ var (
 	BuyerRewardLimit    uint64
 	NotBuyerRewardLimit uint64
 	PairAddress         string
+	TrustedProxies      []string
 
 	Debug bool
 )

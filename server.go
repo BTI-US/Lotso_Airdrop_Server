@@ -25,6 +25,7 @@ var (
 		flags.ApiModeFlag,
 		flags.BuyerRewardLimitFlag,
 		flags.NotBuyerRewardLimitFlag,
+		flags.TrustedProxiesFlag,
 	}
 	chainFlags = []cli.Flag{
 		flags.ApiUrlFlag,
@@ -72,7 +73,7 @@ func ServerApp(ctx *cli.Context) error {
 }
 
 func prepare(ctx *cli.Context) (err error) {
-	flags.ProcessFlags()
+	flags.ProcessFlags(ctx)
 	if err = database.Setup(); err != nil {
 		return
 	}

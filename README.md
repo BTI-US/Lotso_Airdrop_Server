@@ -58,27 +58,28 @@ docker network create lotso-network
 
 ### Required Environment Variables
 
-| Env Name               | Type   | Default     | Must be declared | Description                                                  |
-| ---------------------- | ------ | ----------- | ---------------- | ------------------------------------------------------------ |
-| SERVER_PORT            | String | "1423"      |                  | Server port                                                  |
-| API_MODE               | Int    | 1           |                  | ApiMode, must be 1 or 0                                      |
-| SSL_CERT               | String | ""          |                  | SSL cert path                                                |
-| SSL_KEY                | String | ""          |                  | SSL key path                                                 |
-| DEBUG                  | Bool   | false       |                  | Enable debug API                                             |
-| API_URL                | String | ""          | Yes              | Api url which is used to connect to the RPC interface of the chain |
-| PRIVATE_KEY            | String | ""          | Yes              | Account private key used to issue airdrops regularly, hexadecimal string type |
-| CHAIN_ID               | Int64  | 0           | Yes              | The chain ID which server will connect to                    |
-| CUTOFF_BLOCK           | String | "latest"    |                  | When counting the number of transactions, the number of transactions before this block will be counted |
-| CONTRACT_ADDRESS       | String | ""          | Yes              | The airdrop contract address, hexadecimal string type        |
-| MYSQL_HOST             | String | "127.0.0.1" |                  | Mysql host                                                   |
-| MYSQL_PORT             | Int    | 3306        |                  | Mysql port                                                   |
-| MYSQL_USER             | String | "root"      |                  | Mysql user                                                   |
-| MYSQL_PASSWD           | String | "123456"    |                  | Mysql password                                               |
-| MYSQL_DB               | String | "lotso"     |                  | Mysql database                                               |
-| PAIR_ADDRESS           | String | ""          | Yes              | The uniswapPair address used to count buyers                 |
-| DECIMALS               | Uint64 | 18          |                  | Decimals of token                                            |
-| BUYER_REWARD_LIMIT     | Uint64 | 10000000    |                  | Buyer reward limit                                           |
-| NOT_BUYER_REWARD_LIMIT | Uint64 | 2000000     |                  | NotBuyer reward limit                                        |
+| Env Name               | Type     | Default     | Must be declared | Description                                                  |
+| ---------------------- | -------- | ----------- | ---------------- | ------------------------------------------------------------ |
+| SERVER_PORT            | String   | "1423"      |                  | Server port                                                  |
+| API_MODE               | Int      | 1           |                  | ApiMode, must be 1 or 0                                      |
+| SSL_CERT               | String   | ""          |                  | SSL cert path                                                |
+| SSL_KEY                | String   | ""          |                  | SSL key path                                                 |
+| DEBUG                  | Bool     | false       |                  | Enable debug API                                             |
+| API_URL                | String   | ""          | Yes              | Api url which is used to connect to the RPC interface of the chain |
+| PRIVATE_KEY            | String   | ""          | Yes              | Account private key used to issue airdrops regularly, hexadecimal string type |
+| CHAIN_ID               | Int64    | 0           | Yes              | The chain ID which server will connect to                    |
+| CUTOFF_BLOCK           | String   | "latest"    |                  | When counting the number of transactions, the number of transactions before this block will be counted |
+| CONTRACT_ADDRESS       | String   | ""          | Yes              | The airdrop contract address, hexadecimal string type        |
+| MYSQL_HOST             | String   | "127.0.0.1" |                  | Mysql host                                                   |
+| MYSQL_PORT             | Int      | 3306        |                  | Mysql port                                                   |
+| MYSQL_USER             | String   | "root"      |                  | Mysql user                                                   |
+| MYSQL_PASSWD           | String   | "123456"    |                  | Mysql password                                               |
+| MYSQL_DB               | String   | "lotso"     |                  | Mysql database                                               |
+| PAIR_ADDRESS           | String   | ""          | Yes              | The uniswapPair address used to count buyers                 |
+| DECIMALS               | Uint64   | 18          |                  | Decimals of token                                            |
+| BUYER_REWARD_LIMIT     | Uint64   | 10000000    |                  | Buyer reward limit                                           |
+| NOT_BUYER_REWARD_LIMIT | Uint64   | 2000000     |                  | NotBuyer reward limit                                        |
+| TRUSTED_PROXIES        | []String | []          |                  | Trusted proxies                                              |
 
 ### Bash command for docker-compose
 

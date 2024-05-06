@@ -30,6 +30,7 @@ services:
       PAIR_ADDRESS: ${PAIR_ADDRESS}
       BUYER_REWARD_LIMIT: ${BUYER_REWARD_LIMIT}
       NOT_BUYER_REWARD_LIMIT: ${NOT_BUYER_REWARD_LIMIT}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
       SSL_CERT: /fullchain.pem
       SSL_KEY: /privkey.pem
     networks:
@@ -56,5 +57,5 @@ services:
 #   mysql-data:
 
 networks:
-  lotso-network:
+  lotso-dev-network:
     external: true

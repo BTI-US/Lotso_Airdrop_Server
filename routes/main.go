@@ -30,10 +30,20 @@ func TlsHandler(port string) gin.HandlerFunc {
 
 // Run will start the server
 func Run(port string) {
+	if len(flags.TrustedProxies) != 0 {
+		router.ForwardedByClientIP = true
+		err := router.SetTrustedProxies(flags.TrustedProxies)
+		if err != nil {
+			log.Fatalf("Wrong TrustedProxies, %v", err)
+		}
+		log.Info("Trust proxies: ", flags.TrustedProxies)
+	} else {
+		log.Info("Trust all proxies")
+	}
 	getRoutes()
 	if flags.SslEnabled {
-		router.Use(TlsHandler(port))
 		log.Info("SSL is enabled.")
+		router.Use(TlsHandler(port))
 		log.Fatal(router.RunTLS(":"+port, flags.SslCertPath, flags.SslKeyPath))
 	} else {
 		log.Info("SSL is not enabled.")

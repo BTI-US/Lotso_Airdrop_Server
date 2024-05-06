@@ -115,6 +115,12 @@ var (
 		Destination: &MysqlDB,
 	}
 
+	TrustedProxiesFlag = cli.StringSliceFlag{
+		Name:   "TrustedProxies",
+		Usage:  "Trusted proxies, example: --TrustedProxies 127.0.0.1,172.0.0.1",
+		EnvVar: "TRUSTED_PROXIES",
+	}
+
 	PairAddressFlag = cli.StringFlag{
 		Name:        "pairAddr",
 		Usage:       "The uniswapPair address used to count buyers",
@@ -146,7 +152,7 @@ var (
 	}
 )
 
-func ProcessFlags() {
+func ProcessFlags(ctx *cli.Context) {
 	CheckRequiredFlags()
 	AirdropContractAddress = common.HexToAddress(ContractAddress)
 	PairAddress = utils.Remove0xPrefix(PairAddress)
@@ -154,6 +160,8 @@ func ProcessFlags() {
 		CutoffBlock = "0x" + CutoffBlock
 	}
 	PrivateKey = utils.Remove0xPrefix(PrivateKey)
+
+	TrustedProxies = ctx.StringSlice("TrustedProxies")
 }
 
 func CheckRequiredFlags() {
