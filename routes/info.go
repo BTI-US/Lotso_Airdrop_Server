@@ -8,7 +8,7 @@ import (
 
 func addInfoRoutesV1(rg *gin.RouterGroup) {
 	info := rg.Group("/info")
-	info.GET("/recipients_count", controller.RecipientsCount)
+	info.GET("/recipient_info", controller.RecipientInfo)
 	addInfoDebugRoutesV1(info)
 	if flags.ApiMode == 0 {
 		info.GET("/apply_airdrop", controller.ApplyAirdrop)

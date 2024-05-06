@@ -160,7 +160,7 @@ func LotsoClaimAirdrops(privateKey *ecdsa.PrivateKey) (hash common.Hash, err err
 	return
 }
 
-func LotsoRecipientsCount() (recipientsCount *big.Int, err error) {
+func LotsoRecipientInfo() (recipientInfo []*big.Int, err error) {
 	client, err := ethclient.Dial(flags.ApiUrl)
 	if err != nil {
 		return
@@ -173,7 +173,7 @@ func LotsoRecipientsCount() (recipientsCount *big.Int, err error) {
 		return
 	}
 
-	recipientsCount, err = lotsoAirdrop.RecipientsCount(nil)
+	recipientInfo, err = lotsoAirdrop.RecipientInfo(nil)
 	return
 }
 

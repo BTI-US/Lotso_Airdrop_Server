@@ -12,9 +12,9 @@ import (
 	"net/http"
 )
 
-// RecipientsCount 获取已经调用空投合约领取空投的地址数量
-func RecipientsCount(c *gin.Context) {
-	c.JSON(http.StatusOK, service.RecipientsCount())
+// RecipientInfo 获取空投合约已经调用领取空投的次数和被领取空投的总量
+func RecipientInfo(c *gin.Context) {
+	c.JSON(http.StatusOK, service.RecipientInfo())
 }
 
 // ApplyAirdrop 接收地址参数，向数据库、链上查询此地址的交易数量并存入mysql，如果满足空投条件，则会按计划发放空投

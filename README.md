@@ -4,7 +4,7 @@
 [![Docker CI](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/docker-image.yml/badge.svg)](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/docker-image.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-- Last Modified: 2024-04-26
+- Last Modified: 2024-05-06
 - Author: Fu Ming
 
 ## Table of Contents
@@ -22,9 +22,8 @@
   - [REST API Endpoints](#rest-api-endpoints)
     - [Return Code](#return-code)
   - [Shell Scripts](#shell-scripts)
-    - [Delete Airdrop Record](#delete-airdrop-record)
+    - [Delete and Re-add the Airdrop Record](#delete-and-re-add-the-airdrop-record)
     - [Add Whitelist for Address](#add-whitelist-for-address)
-    - [Change Distribution Time](#change-distribution-time)
   - [License](#license)
 
 ## Introduction
@@ -340,19 +339,20 @@ docker-compose -f docker-compose.yaml down
      }
      ```
 
-5. **GET /v1/info/recipients_count**	*Only enabled when Debug=true*
+5. **GET /v1/info/recipient_info**
 
-   - **Description:** Retrieves the recipient count for the airdrop.
+   - **Description:** Retrieves the number of times the airdrop contract has been called to claim airdrops and the total amount of airdrops claimed.
 
    - **Response:**
-     - `data` (Integer): The number of recipients eligible for the airdrop.
-
+     
+     - `data` (Integer List): The first value is the number of times the airdrop contract has been called to receive airdrops. The second value is the total amount of airdrops received.
+     
    - **Example:**
      
      Request:
      
      ```bash
-     curl --location 'http://127.0.0.1:1423/v1/info/recipients_count'
+     curl --location 'http://127.0.0.1:1423/v1/info/recipient_info'
      ```
      
      Response:
@@ -361,7 +361,7 @@ docker-compose -f docker-compose.yaml down
        "code": 0,
        "message": "Success",
        "error": "",
-       "data": 1
+       "data": [0, 0]
      }
      ```
 
