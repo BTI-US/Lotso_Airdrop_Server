@@ -347,7 +347,8 @@ docker-compose -f docker-compose.yaml down
 
    - **Response:**
      
-     - `data` (Integer List): The first value is the number of times the airdrop contract has been called to receive airdrops. The second value is the total amount of airdrops received.
+     - `recipient_count` (Integer): The number of times the airdrop contract has been called to receive airdrops.
+     - `airdrop_amount` (Integer): The total amount of airdrops has been claimed.
      
    - **Example:**
      
@@ -363,7 +364,10 @@ docker-compose -f docker-compose.yaml down
        "code": 0,
        "message": "Success",
        "error": "",
-       "data": [0, 0]
+       "data": {
+          "recipient_count": 0,
+          "airdrop_amount": 0
+        }
      }
      ```
 

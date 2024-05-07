@@ -10,3 +10,8 @@ type DistributeParam struct {
 type ClaimParam struct {
 	PrivateKey string `json:"private_key"`
 }
+
+type RecipientInfo struct {
+	RecipientCount *big.Int `json:"recipient_count"`
+	AirdropAmount  *big.Int `json:"airdrop_amount"`
+}
