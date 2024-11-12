@@ -2,6 +2,7 @@
 
 [![Go](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/go.yml/badge.svg)](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/go.yml)
 [![Docker CI](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/docker-image.yml/badge.svg)](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/docker-image.yml)
+[![golangci-lint](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/BTI-US/Lotso_Airdrop_Server/actions/workflows/golangci-lint.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 - Last Modified: 2024-05-06
@@ -22,8 +23,9 @@
   - [REST API Endpoints](#rest-api-endpoints)
     - [Return Code](#return-code)
   - [Shell Scripts](#shell-scripts)
-    - [Delete and Re-add the Airdrop Record](#delete-and-re-add-the-airdrop-record)
+    - [Delete Airdrop Record](#delete-airdrop-record)
     - [Add Whitelist for Address](#add-whitelist-for-address)
+    - [Change Distribution Time](#change-distribution-time)
   - [License](#license)
 
 ## Introduction
