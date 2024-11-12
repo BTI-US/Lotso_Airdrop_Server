@@ -7,7 +7,7 @@ import (
 	"Lotso_Airdrop_Server/utils/flags"
 	"fmt"
 	"github.com/labstack/gommon/log"
-	"gopkg.in/urfave/cli.v1"
+	"github.com/urfave/cli/v2"
 	"os"
 )
 
@@ -20,32 +20,32 @@ const (
 var (
 	app       = cli.NewApp()
 	baseFlags = []cli.Flag{
-		flags.PortFlag,
-		flags.DebugFlag,
-		flags.ApiModeFlag,
-		flags.BuyerRewardLimitFlag,
-		flags.NotBuyerRewardLimitFlag,
-		flags.TrustedProxiesFlag,
+		&flags.PortFlag,
+		&flags.DebugFlag,
+		&flags.ApiModeFlag,
+		&flags.BuyerRewardLimitFlag,
+		&flags.NotBuyerRewardLimitFlag,
+		&flags.TrustedProxiesFlag,
 	}
 	chainFlags = []cli.Flag{
-		flags.ApiUrlFlag,
-		flags.CutoffBlockFlag,
-		flags.ContractAddressFlag,
-		flags.PrivateKeyFlag,
-		flags.ChainIDFlag,
-		flags.DecimalsFlag,
-		flags.PairAddressFlag,
+		&flags.ApiUrlFlag,
+		&flags.CutoffBlockFlag,
+		&flags.ContractAddressFlag,
+		&flags.PrivateKeyFlag,
+		&flags.ChainIDFlag,
+		&flags.DecimalsFlag,
+		&flags.PairAddressFlag,
 	}
 	sslFlags = []cli.Flag{
-		flags.SslCertFlag,
-		flags.SslKeyFlag,
+		&flags.SslCertFlag,
+		&flags.SslKeyFlag,
 	}
 	mysqlFlags = []cli.Flag{
-		flags.MysqlHostFlag,
-		flags.MysqlPortFlag,
-		flags.MysqlUserFlag,
-		flags.MysqlPasswdFlag,
-		flags.MysqlDBFlag,
+		&flags.MysqlHostFlag,
+		&flags.MysqlPortFlag,
+		&flags.MysqlUserFlag,
+		&flags.MysqlPasswdFlag,
+		&flags.MysqlDBFlag,
 	}
 )
 
@@ -54,7 +54,7 @@ func init() {
 	app.Name = clientIdentifier
 	app.Version = clientVersion
 	app.Usage = clientUsage
-	app.Commands = []cli.Command{}
+	app.Commands = []*cli.Command{}
 	app.Flags = append(app.Flags, baseFlags...)
 	app.Flags = append(app.Flags, chainFlags...)
 	app.Flags = append(app.Flags, sslFlags...)
@@ -62,8 +62,8 @@ func init() {
 }
 
 func ServerApp(ctx *cli.Context) error {
-	if args := ctx.Args(); len(args) > 0 {
-		return fmt.Errorf("invalid command: %q", args[0])
+	if args := ctx.Args(); args.Len() > 0 {
+		return fmt.Errorf("invalid command: %q", args.First())
 	}
 	err := prepare(ctx)
 	if err != nil {
@@ -78,8 +78,11 @@ func prepare(ctx *cli.Context) (err error) {
 		return
 	}
 	cron.StartWorker("0 1-23/2 * * *") // 0 1-23/2 * * *
-	p := ctx.String("port")
-	routes.Run(p)
+	port := ctx.String("port")
+	sslCertPath := ctx.String("ssl_cert")
+	sslKeyPath := ctx.String("ssl_key")
+	trustedProxies := ctx.StringSlice("trusted_proxies")
+	routes.Run(port, sslCertPath, sslKeyPath, trustedProxies)
 	return
 }
 

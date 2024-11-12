@@ -2,72 +2,96 @@ package flags
 
 import (
 	"Lotso_Airdrop_Server/utils"
+	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/labstack/gommon/log"
-	"gopkg.in/urfave/cli.v1"
+	"github.com/urfave/cli/v2"
+	"os"
+	"strconv"
 )
 
 var (
 	PortFlag = cli.StringFlag{
-		Name:   "port, p",
-		Usage:  "Server port",
-		Value:  "1423",
-		EnvVar: "SERVER_PORT",
+		Name:    "port",
+		Aliases: []string{"p"},
+		Usage:   "Server port",
+		Value:   "1423",
+		EnvVars: []string{"SERVER_PORT"},
+		Action: func(ctx *cli.Context, portStr string) (err error) {
+			port, err := strconv.Atoi(portStr)
+			if err != nil || port <= 0 || port >= 1<<16 {
+				err = fmt.Errorf("flag port value %v out of range[0-65535].", port)
+			}
+			return
+		},
 	}
+
 	ApiModeFlag = cli.IntFlag{
 		Name:        "ApiMode, a",
 		Usage:       "ApiMode, must be 1 or 0",
 		Value:       1,
-		EnvVar:      "API_MODE",
+		EnvVars:     []string{"API_MODE"},
 		Destination: &ApiMode,
 	}
 
 	SslCertFlag = cli.StringFlag{
-		Name:        "ssl_cert, c",
-		Usage:       "SSL cert path",
-		Value:       "",
-		EnvVar:      "SSL_CERT",
-		Destination: &SslCertPath,
+		Name:    "ssl_cert, c",
+		Aliases: []string{"c"},
+		Usage:   "SSL cert path",
+		Value:   "",
+		EnvVars: []string{"SSL_CERT"},
+		Action: func(ctx *cli.Context, path string) (err error) {
+			if len(path) != 0 && !FileExists(path) {
+				err = fmt.Errorf("SSL cert %v is not exist.", path)
+			}
+			return
+		},
 	}
 
 	SslKeyFlag = cli.StringFlag{
-		Name:        "ssl_key, k",
-		Usage:       "SSL key path",
-		Value:       "",
-		EnvVar:      "SSL_KEY",
-		Destination: &SslKeyPath,
+		Name:    "ssl_key",
+		Aliases: []string{"k"},
+		Usage:   "SSL key path",
+		Value:   "",
+		EnvVars: []string{"SSL_KEY"},
+		Action: func(ctx *cli.Context, path string) (err error) {
+			if len(path) != 0 && !FileExists(path) {
+				err = fmt.Errorf("SSL key %v is not exist.", path)
+			}
+			return
+		},
 	}
 
 	DebugFlag = cli.BoolFlag{
 		Name:        "debug, d",
 		Usage:       "Enable debug API",
-		EnvVar:      "DEBUG",
+		EnvVars:     []string{"DEBUG"},
 		Destination: &Debug,
 	}
 
 	ApiUrlFlag = cli.StringFlag{
 		Name:        "api",
 		Usage:       "Api url which is used to connect to the RPC interface of the chain",
-		EnvVar:      "API_URL",
+		EnvVars:     []string{"API_URL"},
 		Destination: &ApiUrl,
 	}
 	PrivateKeyFlag = cli.StringFlag{
 		Name:        "private, pri",
 		Usage:       "Account private key used to issue airdrops regularly, hexadecimal string type",
-		EnvVar:      "PRIVATE_KEY",
+		EnvVars:     []string{"PRIVATE_KEY"},
 		Destination: &PrivateKey,
 	}
 	ChainIDFlag = cli.Int64Flag{
 		Name:        "chain_id",
 		Usage:       "The chain ID which server will connect to",
-		EnvVar:      "CHAIN_ID",
+		EnvVars:     []string{"CHAIN_ID"},
 		Destination: &ChainID,
 	}
 
 	CutoffBlockFlag = cli.StringFlag{
 		Name:        "CutoffBlock",
 		Usage:       "When counting the number of transactions, the number of transactions before this block will be counted",
-		EnvVar:      "CUTOFF_BLOCK",
+		EnvVars:     []string{"CUTOFF_BLOCK"},
 		Value:       "latest",
 		Destination: &CutoffBlock,
 	}
@@ -75,7 +99,7 @@ var (
 	ContractAddressFlag = cli.StringFlag{
 		Name:        "contract",
 		Usage:       "The airdrop contract address, hexadecimal string type",
-		EnvVar:      "CONTRACT_ADDRESS",
+		EnvVars:     []string{"CONTRACT_ADDRESS"},
 		Destination: &ContractAddress,
 	}
 
@@ -83,48 +107,55 @@ var (
 		Name:        "MysqlHost",
 		Usage:       "Mysql host",
 		Value:       "127.0.0.1",
-		EnvVar:      "MYSQL_HOST",
+		EnvVars:     []string{"MYSQL_HOST"},
 		Destination: &MysqlHost,
 	}
 	MysqlPortFlag = cli.IntFlag{
 		Name:        "MysqlPort",
 		Usage:       "Mysql port",
 		Value:       3306,
-		EnvVar:      "MYSQL_PORT",
+		EnvVars:     []string{"MYSQL_PORT"},
 		Destination: &MysqlPort,
 	}
 	MysqlUserFlag = cli.StringFlag{
 		Name:        "MysqlUser",
 		Usage:       "Mysql user",
 		Value:       "root",
-		EnvVar:      "MYSQL_USER",
+		EnvVars:     []string{"MYSQL_USER"},
 		Destination: &MysqlUser,
 	}
 	MysqlPasswdFlag = cli.StringFlag{
 		Name:        "MysqlPasswd",
 		Usage:       "Mysql password",
 		Value:       "123456",
-		EnvVar:      "MYSQL_PASSWD",
+		EnvVars:     []string{"MYSQL_PASSWD"},
 		Destination: &MysqlPasswd,
 	}
 	MysqlDBFlag = cli.StringFlag{
 		Name:        "MysqlDB",
 		Usage:       "Mysql database",
 		Value:       "lotso",
-		EnvVar:      "MYSQL_DB",
+		EnvVars:     []string{"MYSQL_DB"},
 		Destination: &MysqlDB,
 	}
 
 	TrustedProxiesFlag = cli.StringSliceFlag{
-		Name:   "TrustedProxies",
-		Usage:  "Trusted proxies, example: --TrustedProxies 127.0.0.1,172.0.0.1",
-		EnvVar: "TRUSTED_PROXIES",
+		Name:    "trusted_proxies",
+		Usage:   "Trusted proxies, example: --trusted_proxies 127.0.0.1,172.0.0.1",
+		EnvVars: []string{"TRUSTED_PROXIES"},
+		Value:   cli.NewStringSlice(),
+		Action: func(ctx *cli.Context, trustedProxies []string) (err error) {
+			if len(trustedProxies) != 0 {
+				log.Printf("Trust proxies: %v.", trustedProxies)
+			}
+			return
+		},
 	}
 
 	PairAddressFlag = cli.StringFlag{
 		Name:        "pairAddr",
 		Usage:       "The uniswapPair address used to count buyers",
-		EnvVar:      "PAIR_ADDRESS",
+		EnvVars:     []string{"PAIR_ADDRESS"},
 		Destination: &PairAddress,
 	}
 
@@ -132,7 +163,7 @@ var (
 		Name:        "decimals",
 		Usage:       "Decimals of token",
 		Value:       18,
-		EnvVar:      "DECIMALS",
+		EnvVars:     []string{"DECIMALS"},
 		Destination: &Decimals,
 	}
 
@@ -140,14 +171,14 @@ var (
 		Name:        "buyerRewardLimit",
 		Usage:       "Buyer reward limit",
 		Value:       10000000,
-		EnvVar:      "BUYER_REWARD_LIMIT",
+		EnvVars:     []string{"BUYER_REWARD_LIMIT"},
 		Destination: &BuyerRewardLimit,
 	}
 	NotBuyerRewardLimitFlag = cli.Uint64Flag{
 		Name:        "notBuyerRewardLimit",
 		Usage:       "NotBuyer reward limit",
 		Value:       2000000,
-		EnvVar:      "NOT_BUYER_REWARD_LIMIT",
+		EnvVars:     []string{"NOT_BUYER_REWARD_LIMIT"},
 		Destination: &NotBuyerRewardLimit,
 	}
 )
@@ -199,4 +230,15 @@ func IsValidCutoffBlock(cutoffBlock string) bool {
 	default:
 		return utils.IsHex(cutoffBlock)
 	}
+}
+
+func FileExists(path string) bool {
+	_, err := os.Stat(path)
+	if err != nil {
+		if os.IsExist(err) {
+			return true
+		}
+		return false
+	}
+	return true
 }

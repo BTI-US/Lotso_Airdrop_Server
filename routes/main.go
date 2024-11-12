@@ -1,10 +1,9 @@
 package routes
 
 import (
-	"Lotso_Airdrop_Server/utils/flags"
 	"github.com/gin-gonic/gin"
-	"github.com/labstack/gommon/log"
 	"github.com/unrolled/secure"
+	"log"
 )
 
 var (
@@ -19,7 +18,6 @@ func TlsHandler(port string) gin.HandlerFunc {
 		})
 		err := secureMiddleware.Process(c.Writer, c.Request)
 
-		// If there was an error, do not continue.
 		if err != nil {
 			return
 		}
@@ -29,24 +27,21 @@ func TlsHandler(port string) gin.HandlerFunc {
 }
 
 // Run will start the server
-func Run(port string) {
-	if len(flags.TrustedProxies) != 0 {
+func Run(port, sslCertPath, sslKeyPath string, trustedProxies []string) {
+	if len(trustedProxies) != 0 {
 		router.ForwardedByClientIP = true
-		err := router.SetTrustedProxies(flags.TrustedProxies)
+		err := router.SetTrustedProxies(trustedProxies)
 		if err != nil {
 			log.Fatalf("Wrong TrustedProxies, %v", err)
 		}
-		log.Info("Trust proxies: ", flags.TrustedProxies)
-	} else {
-		log.Info("Trust all proxies")
 	}
 	getRoutes()
-	if flags.SslEnabled {
-		log.Info("SSL is enabled.")
+	if len(sslCertPath) != 0 && len(sslKeyPath) != 0 {
+		log.Println("SSL is enabled.")
 		router.Use(TlsHandler(port))
-		log.Fatal(router.RunTLS(":"+port, flags.SslCertPath, flags.SslKeyPath))
+		log.Fatal(router.RunTLS(":"+port, sslCertPath, sslKeyPath))
 	} else {
-		log.Info("SSL is not enabled.")
+		log.Println("SSL is not enabled.")
 		log.Fatal(router.Run(":" + port))
 	}
 }
