@@ -40,7 +40,7 @@ The server runs a scheduled task, which will obtain data from the MySQL database
 
 ## Requirements
 
-- [Go 1.22](https://golang.org/)
+- [Go 1.23](https://golang.org/)
 - [Docker](https://www.docker.com/)
 - API Key from [Pocket Network](https://www.pokt.network/) for the production environment
 - API Key from [Alchemy](https://www.alchemy.com/) for the test-net environment
@@ -63,7 +63,6 @@ docker network create lotso-network
 | Env Name               | Type     | Default     | Must be declared | Description                                                  |
 | ---------------------- | -------- | ----------- | ---------------- | ------------------------------------------------------------ |
 | SERVER_PORT            | String   | "1423"      |                  | Server port                                                  |
-| API_MODE               | Int      | 1           |                  | ApiMode, must be 1 or 0                                      |
 | SSL_CERT               | String   | ""          |                  | SSL cert path                                                |
 | SSL_KEY                | String   | ""          |                  | SSL key path                                                 |
 | DEBUG                  | Bool     | false       |                  | Enable debug API                                             |
@@ -71,7 +70,7 @@ docker network create lotso-network
 | PRIVATE_KEY            | String   | ""          | Yes              | Account private key used to issue airdrops regularly, hexadecimal string type |
 | CHAIN_ID               | Int64    | 0           | Yes              | The chain ID which server will connect to                    |
 | CUTOFF_BLOCK           | String   | "latest"    |                  | When counting the number of transactions, the number of transactions before this block will be counted |
-| CONTRACT_ADDRESS       | String   | ""          | Yes              | The airdrop contract address, hexadecimal string type        |
+| TOKEN_ADDRESS          | String   | ""          | Yes              | The airdrop contract address, hexadecimal string type        |
 | MYSQL_HOST             | String   | "127.0.0.1" |                  | Mysql host                                                   |
 | MYSQL_PORT             | Int      | 3306        |                  | Mysql port                                                   |
 | MYSQL_USER             | String   | "root"      |                  | Mysql user                                                   |

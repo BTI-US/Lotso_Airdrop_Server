@@ -12,6 +12,7 @@ var (
 	AirdropItemAlreadyExists  = NewRetCode(10006, "You have applied the airdrop") // Airdrop item already exists
 	AirdropItemNotExists      = NewRetCode(10007, "Airdrop item not exists")
 	GetAirdropItemFailed      = NewRetCode(10008, "Get airdrop item failed")
+	GetAddressFailed          = NewRetCode(10008, "Get address item failed")
 	SaveAirdropItemFailed     = NewRetCode(10009, "Save airdrop item failed")
 	DistributeAirdropsFailed  = NewRetCode(10010, "Distribute airdrops failed")
 	ClaimAirdropsFailed       = NewRetCode(10011, "Claim airdrops failed")

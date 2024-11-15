@@ -1,37 +1,22 @@
 package flags
 
 import (
+	"crypto/ecdsa"
 	"github.com/ethereum/go-ethereum/common"
 )
 
 var (
-	SslCertPath string
-	SslKeyPath  string
+	ApiUrl      string
+	CutoffBlock string
+	ChainID     int64
 
-	ApiMode         int
-	ApiUrl          string
-	ContractAddress string
-	CutoffBlock     string
-	PrivateKey      string
-	ChainID         int64
-
-	MysqlHost   string
-	MysqlUser   string
-	MysqlPasswd string
-	MysqlDB     string
-	MysqlPort   int
-
-	Decimals            uint64
-	BuyerRewardLimit    uint64
-	NotBuyerRewardLimit uint64
-	PairAddress         string
-	TrustedProxies      []string
+	Decimals    uint
+	PairAddress string
 
 	Debug bool
 )
 
 var (
-	SslEnabled bool
-
-	AirdropContractAddress common.Address
+	PrivateKey   *ecdsa.PrivateKey
+	TokenAddress common.Address
 )
