@@ -5,7 +5,7 @@ go 1.23.1
 require (
 	github.com/FantasyJony/openzeppelin-merkle-tree-go v1.1.3
 	github.com/Fu-XDU/mingfu_go_common v0.0.0-20241113084347-59dfeaa4f9be
-	github.com/ethereum/go-ethereum v1.14.11
+	github.com/ethereum/go-ethereum v1.14.12
 	github.com/gin-gonic/gin v1.10.0
 	github.com/labstack/gommon v0.4.2
 	github.com/robfig/cron/v3 v3.0.1
@@ -17,7 +17,6 @@ require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/StackExchange/wmi v1.2.1 // indirect
 	github.com/bits-and-blooms/bitset v1.13.0 // indirect
-	github.com/btcsuite/btcd/btcec/v2 v2.3.4 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
